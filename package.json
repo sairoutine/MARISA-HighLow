@@ -1,0 +1,29 @@
+{
+  "name": "gulp-game-boilertemplate",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./public/electron.js",
+    "build:win": "cd public && electron-packager ./ Yakusoku --overwrite --platform=win32  --arch=x64 --version=0.36.1 --icon=icon.ico --out ../Win64",
+    "build:mac": "cd public && electron-packager ./ Yakusoku --overwrite --platform=darwin --arch=x64 --version=0.36.1 --icon=icon.icns --out ../Mac",
+    "build:win32": "cd public && electron-packager ./ Yakusoku --overwrite --platform=win32  --arch=ia32 --version=0.36.1 --icon=icon.ico --out ../Win32"
+  },
+  "author": "sairoutine",
+  "license": "NO LICENSE",
+  "devDependencies": {
+    "browser-sync": "2.14.3",
+    "browserify": "12.0.1",
+    "browserify-shim": "3.8.11",
+    "electron-packager": "8.4.0",
+    "electron-prebuilt": "1.4.13",
+    "gulp": "3.9.0",
+    "gulp-notify": "2.2.0",
+    "gulp-plumber": "1.0.1",
+    "gulp-rename": "1.2.2",
+    "gulp-uglify": "1.5.1",
+    "gulp-watch": "4.3.5",
+    "run-sequence": "1.1.5",
+    "vinyl-source-stream": "1.1.0"
+  }
+}
