@@ -15,6 +15,7 @@ var html = "index.html";
 
 var watch      = require('gulp-watch');
 var browserify = require('browserify');
+var stringify  = require('stringify');
 var gulp       = require('gulp');
 var source     = require('vinyl-source-stream');
 var uglify     = require("gulp-uglify");
@@ -27,6 +28,9 @@ var browserSync= require('browser-sync').create();
 
 gulp.task('browserify', function() {
 	return browserify(source_file)
+		.transform(stringify, {
+			appliesTo: { includeExtensions: ['.vs', '.fs'] }, // シェーダーファイルをテキストとして require できるようにする
+		})
 		.bundle()
 		.on('error', function(err){   //ここからエラーだった時の記述
 			// デスクトップ通知
