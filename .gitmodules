@@ -1,0 +1,3 @@
+[submodule "src/js/hakureijs"]
+	path = src/js/hakureijs
+	url = https://github.com/sairoutine/hakureijs.git
