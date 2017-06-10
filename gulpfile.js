@@ -73,7 +73,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', ['browser-sync'], function() {
-	watch(['src/js/**/*.js'], function(event) {
+	watch(['src/js/**/*.(js|html|fs|vs)'], function(event) {
 		gulp.start("build");
 	});
 });
