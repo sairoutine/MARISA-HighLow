@@ -5,16 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "electron ./public/electron.js",
-    "build:win": "cd public && electron-packager ./ NewGame --overwrite --platform=win32  --arch=x64 --version=0.36.1 --icon=icon.ico --out ../Win64",
-    "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=0.36.1 --icon=icon.icns --out ../Mac"
+    "build:win": "cd public && electron-packager ./ NewGame --overwrite --platform=win32  --arch=x64 --version=1.6.0 --icon=icon.ico --out ../Win64",
+    "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=1.6.0 --icon=icon.icns --out ../Mac"
   },
   "author": "sairoutine",
   "license": "NO LICENSE",
   "devDependencies": {
     "browser-sync": "2.14.3",
     "browserify": "12.0.1",
+    "electron": "1.6.0",
     "electron-packager": "8.4.0",
-    "electron-prebuilt": "1.4.13",
     "gulp": "3.9.0",
     "gulp-notify": "2.2.0",
     "gulp-plumber": "1.0.1",
