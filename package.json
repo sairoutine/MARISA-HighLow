@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "electron ./public/electron.js",
-    "build:win": "cd public && electron-packager ./ NewGame --overwrite --platform=win32  --arch=x64 --version=1.6.0 --icon=icon.ico --out ../Win64",
-    "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=1.6.0 --icon=icon.icns --out ../Mac"
+    "build:win": "cd public && electron-packager ./ NewGame --overwrite --platform=win32  --arch=x64 --version=1.6.0 --icon=icon.ico --out ../releases  --asar",
+    "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=1.6.0 --icon=icon.icns --out ../releases  --asar"
   },
   "author": "sairoutine",
   "license": "NO LICENSE",
