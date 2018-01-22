@@ -10,8 +10,8 @@ window.onload = function() {
 
 	game = new Game(mainCanvas, options);
 
-	game.setupEvents();
 	game.init();
+	game.setupEvents();
 	game.startRun();
 };
 
