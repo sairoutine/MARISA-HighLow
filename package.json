@@ -13,7 +13,7 @@
   "devDependencies": {
     "browser-sync": "2.14.3",
     "browserify": "12.0.1",
-    "electron": "1.6.0",
+    "electron": "1.6.16",
     "electron-packager": "8.4.0",
     "gulp": "3.9.1",
     "gulp-notify": "2.2.0",
