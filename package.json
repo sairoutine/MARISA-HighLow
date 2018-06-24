@@ -9,7 +9,7 @@
     "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=1.6.0 --icon=icon.icns --out ../releases  --asar"
   },
   "author": "sairoutine",
-  "license": "The Unlicense",
+  "license": "Unlicense",
   "devDependencies": {
     "browser-sync": "2.14.3",
     "browserify": "12.0.1",
