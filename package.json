@@ -11,18 +11,18 @@
   "author": "sairoutine",
   "license": "Unlicense",
   "devDependencies": {
-    "browser-sync": "2.14.3",
-    "browserify": "12.0.1",
-    "electron-packager": "8.4.0",
+    "browser-sync": "2.24.6",
+    "browserify": "16.2.2",
+    "electron-packager": "12.1.0",
     "electron-prebuilt": "1.4.13",
     "gulp": "3.9.1",
-    "gulp-notify": "2.2.0",
-    "gulp-plumber": "1.0.1",
-    "gulp-rename": "1.2.2",
-    "gulp-uglify": "1.5.1",
-    "gulp-watch": "4.3.11",
-    "run-sequence": "1.1.5",
-    "stringify": "5.1.0",
-    "vinyl-source-stream": "1.1.0"
+    "gulp-notify": "3.2.0",
+    "gulp-plumber": "1.2.0",
+    "gulp-rename": "1.4.0",
+    "gulp-uglify": "3.0.1",
+    "gulp-watch": "5.0.1",
+    "run-sequence": "2.2.1",
+    "stringify": "5.2.0",
+    "vinyl-source-stream": "2.0.0"
   }
 }
