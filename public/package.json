@@ -1,5 +1,5 @@
 {
-  "name": "public",
+  "name": "NewGame",
   "version": "1.0.0",
   "description": "this is for electron build",
   "main": "electron.js",
