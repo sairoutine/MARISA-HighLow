@@ -39,6 +39,7 @@ Scene.prototype.draw = function(){
 
 	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
 
+	ctx.restore();
 };
 
 module.exports = Scene;
