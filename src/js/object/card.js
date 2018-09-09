@@ -32,7 +32,12 @@ Card.prototype.setType = function(type, number){
 	this._type   = type;
 	this._number = number;
 };
-
+Card.prototype.type = function(){
+	return this._type;
+};
+Card.prototype.number = function(){
+	return this._number;
+};
 Card.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
 };
