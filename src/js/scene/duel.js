@@ -38,7 +38,11 @@ Scene.prototype.init = function(field_name, is_right){
 	this._current_yen = 1;
 
 	this._opened_card = this._deck.serve();
+	this._opened_card.flip(); // open
+	// TODO:
+	this._opened_card.setPosition(330, 330);
 	this._candidate_card = this._deck.serve();
+	this._candidate_card.setPosition(130, 330);
 
 	this.changeSubScene("choose");
 };
@@ -46,19 +50,30 @@ Scene.prototype.init = function(field_name, is_right){
 Scene.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
+	// 左クリック位置を出力
+	if (true) {
+		if(this.core.input_manager.isLeftClickPush()) {
+			var x = this.core.input_manager.mousePositionX();
+			var y = this.core.input_manager.mousePositionY();
+
+			console.log("x: " + x + ", y: " + y);
+		}
+	}
+
+
 };
 
 Scene.prototype.draw = function(){
-	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
-
 	// 背景
 	ctx.save();
-	var bg = this.core.image_loader.getImage("bg");
-	ctx.drawImage(bg,0,0,this.width, this.height);
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
-	this._deck.drawBoard();
+	BaseScene.prototype.draw.apply(this, arguments);
+
+	this._deck.draw();
 
 	// 候補カードの描画
 	this._candidate_card.draw();
@@ -75,7 +90,7 @@ Scene.prototype.draw = function(){
 	ctx.textAlign = 'left';
 	ctx.textBaseAlign = 'top';
 
-	ctx.fillText("残りのカード：" + deck_num, 50, 550);
+	ctx.fillText("残りのカード：" + deck_num + "枚", 50, 550);
 
 	// 所持金
 	// TODO:
