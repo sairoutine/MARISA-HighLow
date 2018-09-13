@@ -1,0 +1,88 @@
+'use strict';
+
+var BaseObject = require('../hakurei').Object.Base;
+var Util = require('../hakurei').Util;
+
+var MESSAGE_OFFSET_X = -60;
+
+// ウィンドウの大きさ
+var WINDOW_SCALE = {
+	WIDTH: 1,
+	HEIGHT: 1,
+};
+
+
+var Serif = function(scene) {
+	BaseObject.apply(this, arguments);
+
+	this._text = "";
+};
+Util.inherit(Serif, BaseObject);
+
+Serif.prototype.init = function(){
+	BaseObject.prototype.init.apply(this, arguments);
+
+	this._text = "";
+};
+
+Serif.prototype.beforeDraw = function(){
+	BaseObject.prototype.beforeDraw.apply(this, arguments);
+};
+
+Serif.prototype.draw = function(){
+	BaseObject.prototype.draw.apply(this, arguments);
+
+	this._drawWindow(580, 200);
+	this._drawText(580, 200, this._text);
+};
+
+Serif.prototype._drawWindow = function (x, y) {
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.translate(x, y);
+
+	var fukidashi = this.core.image_loader.getImage("balloon_down_left");
+
+	// x,y座標は左上が基準位置
+	ctx.drawImage(fukidashi,
+		0 + MESSAGE_OFFSET_X,
+		0,
+		fukidashi.width * WINDOW_SCALE.WIDTH,
+		fukidashi.height * WINDOW_SCALE.HEIGHT
+	);
+	ctx.restore();
+
+};
+
+
+
+Serif.prototype._drawText = function(x, y, text){
+	y -= -40;
+	x += MESSAGE_OFFSET_X + 50;
+
+	var font_size = 36;
+
+	var sentences = text.split("\n");
+	var ctx = this.core.ctx;
+	// 文言
+	ctx.save();
+	ctx.fillStyle = "black";
+	ctx.font = font_size.toString() + "px 'MyFont'";
+	ctx.textAlign = 'left';
+	ctx.textBaseAlign = 'top';
+
+	for(var i = 0, len = sentences.length; i < len; i++) {
+		y += font_size * 1.5;
+		ctx.fillText(sentences[i], x, y); // 1行表示
+
+	}
+
+	ctx.restore();
+};
+
+Serif.prototype.show = function(text){
+	this._text = text;
+};
+
+
+module.exports = Serif;
