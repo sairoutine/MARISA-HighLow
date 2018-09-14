@@ -3,12 +3,15 @@
 var BaseScene = require('../hakurei').Scene.Base;
 
 var Util = require('../hakurei').Util;
+var RuleManager = require('../logic/rule_manager');
 var SceneDuelChoose   = require('./duel/choose');
 var SceneDuelDead     = require('./duel/dead');
 var SceneDuelDraw     = require('./duel/draw');
 var SceneDuelLose     = require('./duel/lose');
+var SceneDuelPass     = require('./duel/pass');
 var SceneDuelNotReach = require('./duel/not_reach');
 var SceneDuelWin      = require('./duel/win');
+var SceneDuelTutorial = require('./duel/tutorial');
 
 var Deck = require('../object/deck');
 
@@ -19,15 +22,19 @@ var Scene = function(core) {
 	this._current_yen = 0;
 
 	this._opened_card = null;
-	this._candidate_card = null;
 
 	// サブシーン
 	this.addSubScene("choose", new SceneDuelChoose(core));
 	this.addSubScene("dead", new SceneDuelDead(core));
 	this.addSubScene("draw", new SceneDuelDraw(core));
 	this.addSubScene("lose", new SceneDuelLose(core));
+	this.addSubScene("pass", new SceneDuelPass(core));
 	this.addSubScene("not_reach", new SceneDuelNotReach(core));
 	this.addSubScene("win", new SceneDuelWin(core));
+	this.addSubScene("tutorial", new SceneDuelTutorial(core));
+
+	this.rule_manager = new RuleManager(this);
+	this.addObjects(this.rule_manager);
 };
 Util.inherit(Scene, BaseScene);
 
@@ -37,14 +44,21 @@ Scene.prototype.init = function(field_name, is_right){
 	this._deck.init();
 	this._current_yen = 1;
 
+	// TODO:
 	this._opened_card = this._deck.serve();
 	this._opened_card.flip(); // open
-	// TODO:
 	this._opened_card.setPosition(330, 330);
-	this._candidate_card = this._deck.serve();
-	this._candidate_card.setPosition(130, 330);
 
-	this.changeSubScene("choose");
+	// TODO:
+	this._deck.topCard().setPosition(130, 330);
+
+	if (this.core.is_finish_tutorial) {
+		this.changeSubScene("choose");
+	}
+	else {
+		this.core.is_finish_tutorial = true;
+		this.changeSubScene("tutorial");
+	}
 };
 
 Scene.prototype.beforeDraw = function(){
@@ -71,12 +85,12 @@ Scene.prototype.draw = function(){
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
-	BaseScene.prototype.draw.apply(this, arguments);
-
 	this._deck.draw();
 
 	// 候補カードの描画
-	this._candidate_card.draw();
+	if (this._deck.topCard()) {
+		this._deck.topCard().draw();
+	}
 
 	// 既に開かれたカードの描画
 	this._opened_card.draw();
@@ -86,7 +100,7 @@ Scene.prototype.draw = function(){
 	var deck_num = this._deck.count();
 	ctx.save();
 	ctx.fillStyle = "white";
-	ctx.font = "36px 'Comic Sans MS'";
+	ctx.font = "36px 'MyFont'";
 	ctx.textAlign = 'left';
 	ctx.textBaseAlign = 'top';
 
@@ -96,6 +110,8 @@ Scene.prototype.draw = function(){
 	// TODO:
 	ctx.fillText("所持金：" + this._current_yen + "円", 50, 600);
 	ctx.restore();
+
+	BaseScene.prototype.draw.apply(this, arguments);
 };
 
 module.exports = Scene;
