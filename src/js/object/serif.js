@@ -16,6 +16,8 @@ var Serif = function(scene) {
 	BaseObject.apply(this, arguments);
 
 	this._text = "";
+	this._transparent = 1.0;
+	this._is_start_extinguish = false;
 };
 Util.inherit(Serif, BaseObject);
 
@@ -23,10 +25,20 @@ Serif.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
 
 	this._text = "";
+	this._transparent = 1.0;
+	this._is_start_extinguish = false;
 };
 
 Serif.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
+
+	if (this._is_start_extinguish && this._transparent !== 0.0) {
+		this._transparent -= 0.1;
+
+		if (this._transparent <= 0.0) {
+			this._transparent = 0.0;
+		}
+	}
 };
 
 Serif.prototype.draw = function(){
@@ -42,6 +54,8 @@ Serif.prototype._drawWindow = function (x, y) {
 	ctx.translate(x, y);
 
 	var fukidashi = this.core.image_loader.getImage("balloon_down_left");
+
+	ctx.globalAlpha = this._transparent;
 
 	// x,y座標は左上が基準位置
 	ctx.drawImage(fukidashi,
@@ -66,6 +80,7 @@ Serif.prototype._drawText = function(x, y, text){
 	var ctx = this.core.ctx;
 	// 文言
 	ctx.save();
+	ctx.globalAlpha = this._transparent;
 	ctx.fillStyle = "black";
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
@@ -83,6 +98,11 @@ Serif.prototype._drawText = function(x, y, text){
 Serif.prototype.show = function(text){
 	this._text = text;
 };
+
+Serif.prototype.startExtinguish = function(){
+	this._is_start_extinguish = true;
+};
+
 
 
 module.exports = Serif;
