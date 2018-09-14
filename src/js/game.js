@@ -12,20 +12,24 @@ var Assets = require('./assets');
 
 var Game = function(canvas) {
 	Core.apply(this, arguments);
-};
-Util.inherit(Game, Core);
 
-Game.prototype.init = function () {
-	Core.prototype.init.apply(this, arguments);
+	this.is_finish_tutorial = false;
 
 	this.scene_manager.addScene("loading", new SceneLoading(this));
 	this.scene_manager.addScene("warnings", new SceneWarnings(this));
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
 	this.scene_manager.addScene("win", new SceneWin(this));
+};
+Util.inherit(Game, Core);
 
-	//this.scene_manager.changeScene("loading", Assets, "warnings");
-	this.scene_manager.changeScene("loading", Assets, "win");
+Game.prototype.init = function () {
+	Core.prototype.init.apply(this, arguments);
+
+	this.is_finish_tutorial = false;
+
+	this.scene_manager.changeScene("loading", Assets, "warnings");
+	//this.scene_manager.changeScene("loading", Assets, "duel");
 };
 
 module.exports = Game;
