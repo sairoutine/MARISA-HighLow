@@ -36,7 +36,10 @@ SceneDuelPass.prototype.beforeDraw = function(){
 		if (x >= CONSTANT.OPEN_CARD_X) {
 			// 移動が終わったら次へ
 			this.parent.setNewCard();
-			this.parent.changeSubScene("choose");
+
+			if (!this.parent.rule_manager.checkGameJudge()) {
+				this.parent.changeSubScene("choose");
+			}
 		}
 	}
 };
