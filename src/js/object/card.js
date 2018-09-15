@@ -19,7 +19,6 @@ Util.inherit(Card, BaseObject);
 Card.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
 
-	// TODO:
 	this._type   = null;
 	this._number = null;
 	this._is_reverse = true;

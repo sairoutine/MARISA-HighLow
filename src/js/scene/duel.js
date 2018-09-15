@@ -118,7 +118,6 @@ Scene.prototype.draw = function(){
 	}
 
 	// デッキ残り枚数の描画
-	// TODO:
 	var deck_num = this._deck.count();
 	ctx.save();
 	ctx.fillStyle = "white";
@@ -129,7 +128,6 @@ Scene.prototype.draw = function(){
 	ctx.fillText("残りのカード：" + deck_num + "枚", 50, 550);
 
 	// 所持金
-	// TODO:
 	ctx.fillText("所持金：" + this.rule_manager.money() + "円", 50, 600);
 	ctx.restore();
 
