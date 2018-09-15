@@ -6,7 +6,7 @@ var SceneWarnings = require('./scene/warnings');
 var SceneLoading = require('./hakurei').Scene.Loading;
 var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
-var SceneWin = require('./scene/win');
+var SceneClear = require('./scene/clear');
 
 var Assets = require('./assets');
 
@@ -19,7 +19,7 @@ var Game = function(canvas) {
 	this.scene_manager.addScene("warnings", new SceneWarnings(this));
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
-	this.scene_manager.addScene("win", new SceneWin(this));
+	this.scene_manager.addScene("clear", new SceneClear(this));
 };
 Util.inherit(Game, Core);
 
