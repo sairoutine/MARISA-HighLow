@@ -123,7 +123,7 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "white";
 	ctx.font = "36px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	ctx.fillText("残りのカード：" + deck_num + "枚", 50, 550);
 

@@ -89,7 +89,7 @@ Serif.prototype._drawText = function(x, y, text){
 	ctx.fillStyle = "black";
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
 		y += font_size * 1.5;

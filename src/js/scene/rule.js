@@ -49,7 +49,7 @@ Scene.prototype._drawText = function(x, y, size, color, text){
 	ctx.fillStyle = color;
 	ctx.font = size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
 		y += size * 1.5;

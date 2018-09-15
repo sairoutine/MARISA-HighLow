@@ -37,7 +37,7 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
 	ctx.textAlign = 'center';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
 

@@ -59,7 +59,7 @@ JudgeMessage.prototype.draw = function(){
 	ctx.fillStyle = this._color;
 	ctx.font = "64px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 	ctx.fillText(this._text, 170, 500);
 	ctx.restore();
 
