@@ -13846,7 +13846,7 @@ JudgeMessage.prototype.draw = function(){
 	ctx.fillStyle = this._color;
 	ctx.font = "64px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 	ctx.fillText(this._text, 170, 500);
 	ctx.restore();
 
@@ -13961,7 +13961,7 @@ Serif.prototype._drawText = function(x, y, text){
 	ctx.fillStyle = "black";
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
 		y += font_size * 1.5;
@@ -14025,7 +14025,7 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
 	ctx.textAlign = 'center';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
 
@@ -14160,7 +14160,7 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "white";
 	ctx.font = "36px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	ctx.fillText("残りのカード：" + deck_num + "枚", 50, 550);
 
@@ -14861,7 +14861,7 @@ SceneDuelTutorial.prototype._drawText = function(x, y, window_name, text){
 	ctx.fillStyle = "black";
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
 		y += font_size * 1.5;
@@ -14998,7 +14998,7 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
 	ctx.textAlign = 'center';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	ctx.fillText("Super Congratulations!!", this.width/2, this.height/2);
 
@@ -15059,7 +15059,7 @@ Scene.prototype._drawText = function(x, y, size, color, text){
 	ctx.fillStyle = color;
 	ctx.font = size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
-	ctx.textBaseAlign = 'top';
+	//ctx.textBaseline = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
 		y += size * 1.5;
