@@ -2,6 +2,7 @@
 
 var Util = require('../hakurei').util;
 var BaseObject = require('../hakurei').Object.Base;
+var CONSTANT = require('../constant');
 
 var BattleManager = function(scene) {
 	BaseObject.apply(this, arguments);
@@ -18,6 +19,23 @@ BattleManager.prototype.init = function(serif_idx){
 
 BattleManager.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
+};
+
+BattleManager.prototype.checkGameJudge = function(){
+	if (this._money >= CONSTANT.CLEAR_NEED_MONEY) {
+		// ゲームクリア
+		this.core.scene_manager.changeScene("win");
+
+		return true;
+	}
+	else if (this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY) {
+		// ゲームオーバー
+		this.scene.changeSubScene("not_reach");
+
+		return true;
+	}
+
+	return false;
 };
 
 BattleManager.prototype.draw = function(){
