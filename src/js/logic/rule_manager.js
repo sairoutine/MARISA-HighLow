@@ -26,7 +26,7 @@ RuleManager.prototype.beforeDraw = function(){
 RuleManager.prototype.checkGameJudge = function(){
 	if (this._money >= CONSTANT.CLEAR_NEED_MONEY) {
 		// ゲームクリア
-		this.core.scene_manager.changeScene("win");
+		this.core.scene_manager.changeScene("clear");
 
 		return true;
 	}
