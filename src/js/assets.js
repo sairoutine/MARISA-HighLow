@@ -9,8 +9,9 @@ AssetsConfig.images = {
 	"button_white": "./image/button_white.png",
 	"button_gray": "./image/button_gray.png",
 	// http://www.pasocafe.com/balloon/balloon_01.php
-	"balloon_left": "./image/balloon_left.png",
-	"balloon_right": "./image/balloon_right.png",
+	"balloon_up_left": "./image/balloon_up_left.png",
+	"balloon_down_left": "./image/balloon_down_left.png",
+	"balloon_up_right": "./image/balloon_up_right.png",
 };
 
 AssetsConfig.sounds = {
