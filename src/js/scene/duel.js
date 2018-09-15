@@ -21,7 +21,6 @@ var Scene = function(core) {
 	BaseScene.apply(this, arguments);
 
 	this._deck = new Deck(this);
-	this._current_yen = 0;
 
 	this._opened_card = null;
 
@@ -45,7 +44,6 @@ Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
 
 	this._deck.init();
-	this._current_yen = 1;
 
 	this.setNewCard();
 
@@ -112,13 +110,13 @@ Scene.prototype.draw = function(){
 
 	this._deck.draw();
 
+	// 既に開かれたカードの描画
+	this._opened_card.draw();
+
 	// 候補カードの描画
 	if (this._deck.topCard()) {
 		this._deck.topCard().draw();
 	}
-
-	// 既に開かれたカードの描画
-	this._opened_card.draw();
 
 	// デッキ残り枚数の描画
 	// TODO:
@@ -133,7 +131,7 @@ Scene.prototype.draw = function(){
 
 	// 所持金
 	// TODO:
-	ctx.fillText("所持金：" + this._current_yen + "円", 50, 600);
+	ctx.fillText("所持金：" + this.rule_manager.money() + "円", 50, 600);
 	ctx.restore();
 
 	BaseScene.prototype.draw.apply(this, arguments);
