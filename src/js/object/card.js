@@ -27,7 +27,9 @@ Card.prototype.init = function(){
 Card.prototype.flip = function(){
 	this._is_reverse = !this._is_reverse;
 };
-
+Card.prototype.isReverse = function(){
+	return this._is_reverse;
+};
 Card.prototype.setType = function(type, number){
 	this._type   = type;
 	this._number = number;
