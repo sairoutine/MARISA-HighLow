@@ -3,6 +3,7 @@
 var BaseScene = require('../hakurei').Scene.Base;
 
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 var RuleManager = require('../logic/rule_manager');
 var SceneDuelChoose   = require('./duel/choose');
 var SceneDuelDead     = require('./duel/dead');
@@ -44,13 +45,7 @@ Scene.prototype.init = function(field_name, is_right){
 	this._deck.init();
 	this._current_yen = 1;
 
-	// TODO:
-	this._opened_card = this._deck.serve();
-	this._opened_card.flip(); // open
-	this._opened_card.setPosition(330, 330);
-
-	// TODO:
-	this._deck.topCard().setPosition(130, 330);
+	this.setNewCard();
 
 	if (this.core.is_finish_tutorial) {
 		this.changeSubScene("choose");
@@ -59,6 +54,21 @@ Scene.prototype.init = function(field_name, is_right){
 		this.core.is_finish_tutorial = true;
 		this.changeSubScene("tutorial");
 	}
+		this.changeSubScene("choose");
+};
+
+
+Scene.prototype.setNewCard = function(){
+	this._opened_card = this._deck.serve();
+	this._opened_card.setPosition(CONSTANT.OPEN_CARD_X, CONSTANT.OPEN_CARD_Y);
+
+	if (this._deck.topCard()) {
+		this._deck.topCard().setPosition(CONSTANT.TOP_CARD_X, CONSTANT.TOP_CARD_Y);
+	}
+};
+
+Scene.prototype.deck = function(){
+	return this._deck;
 };
 
 Scene.prototype.beforeDraw = function(){

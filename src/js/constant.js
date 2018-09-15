@@ -4,5 +4,11 @@ var CONSTANT = {
 	TYPE_BLUE:   1,
 	TYPE_GREEN:  2,
 	TYPE_PURPLE: 3,
+
+	OPEN_CARD_X: 330,
+	OPEN_CARD_Y: 330,
+
+	TOP_CARD_X: 130,
+	TOP_CARD_Y: 330,
 };
 module.exports = CONSTANT;
