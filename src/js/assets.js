@@ -12,6 +12,8 @@ AssetsConfig.images = {
 	"balloon_up_left": "./image/balloon_up_left.png",
 	"balloon_down_left": "./image/balloon_down_left.png",
 	"balloon_up_right": "./image/balloon_up_right.png",
+	// http://www.vita-chi.net/message.htm
+	"message_window": "./image/message_window.png",
 };
 
 AssetsConfig.sounds = {
