@@ -10,5 +10,7 @@ var CONSTANT = {
 
 	TOP_CARD_X: 130,
 	TOP_CARD_Y: 330,
+
+	CLEAR_NEED_MONEY: 100000000,
 };
 module.exports = CONSTANT;
