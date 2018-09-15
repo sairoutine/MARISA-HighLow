@@ -33,21 +33,25 @@ SceneDuelChoose.prototype.beforeDraw = function(){
 
 	if(this.core.input_manager.isLeftClickPush()) {
 		if(this._pass_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Pass!");
 			this.parent.rule_manager.pass();
 
 			this._pass_button.setVariable("isclick", true);
 		}
 		else if(this._high_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("High!");
 			this.parent.rule_manager.chooseHigh();
 
 			this._high_button.setVariable("isclick", true);
 		}
 		else if(this._low_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Low!");
 			this.parent.rule_manager.chooseLow();
 
 			this._low_button.setVariable("isclick", true);
 		}
 		else if(this._same_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Same!");
 			this.parent.rule_manager.chooseSame();
 
 			this._same_button.setVariable("isclick", true);
