@@ -7,6 +7,7 @@ var CONSTANT = require('../constant');
 var RuleManager = function(scene) {
 	BaseObject.apply(this, arguments);
 
+	this._bullet_num = 0;
 	this._money = 0;
 };
 Util.inherit(RuleManager, BaseObject);
@@ -14,6 +15,7 @@ Util.inherit(RuleManager, BaseObject);
 RuleManager.prototype.init = function(serif_idx){
 	BaseObject.prototype.init.apply(this, arguments);
 
+	this._bullet_num = 5;
 	this._money = 1;
 };
 
@@ -87,6 +89,15 @@ RuleManager.prototype.chooseSame = function(){
 		this.scene.changeSubScene("lose");
 	}
 };
+
+RuleManager.prototype.roulette = function(){
+	var fired_bullet = Util.getRandomInt(this._bullet_num);
+	this._bullet_num--;
+
+	return(fired_bullet === 1 ? true : false);
+};
+
+
 
 RuleManager.prototype.money = function(){
 	return this._money;
