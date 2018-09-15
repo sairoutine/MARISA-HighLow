@@ -33,22 +33,38 @@ SceneDuelDraw.prototype.beforeDraw = function(){
 	else if (this.frame_count === 60) {
 		this.parent.startSerifExtinguish();
 		this._judge_message.extinguish();
+
+		// クリア判定
+		if (this.parent.rule_manager.isClear()) {
+			this.core.scene_manager.setFadeOut(60, "black");
+			this.core.scene_manager.changeScene("clear");
+		}
+
 		return;
+	}
+	else if (this.parent.rule_manager.isClear()) {
+		// クリア済みならシーンが変わるまで何もしない
 	}
 	else {
 		// 左のカードを右へ移動する演出
 		var x = this.parent.deck().topCard().x() + 10;
 		this.parent.deck().topCard().x(x);
 
+		// 移動が終わったら
 		if (x >= CONSTANT.OPEN_CARD_X) {
-			// 移動が終わったら次へ
 			this.parent.setNewCard();
 
-			if (!this.parent.rule_manager.checkGameJudge()) {
+			if (this.parent.rule_manager.isGameOver()) {
+				// ゲームオーバー
+				this.parent.changeSubScene("not_reach");
+			}
+			else {
+				// 次へ
 				this.parent.changeSubScene("choose");
 			}
 		}
 	}
+
 
 };
 
