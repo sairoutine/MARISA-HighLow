@@ -4,24 +4,24 @@ var Util = require('../hakurei').util;
 var BaseObject = require('../hakurei').Object.Base;
 var CONSTANT = require('../constant');
 
-var BattleManager = function(scene) {
+var RuleManager = function(scene) {
 	BaseObject.apply(this, arguments);
 
 	this._money = 0;
 };
-Util.inherit(BattleManager, BaseObject);
+Util.inherit(RuleManager, BaseObject);
 
-BattleManager.prototype.init = function(serif_idx){
+RuleManager.prototype.init = function(serif_idx){
 	BaseObject.prototype.init.apply(this, arguments);
 
 	this._money = 1;
 };
 
-BattleManager.prototype.beforeDraw = function(){
+RuleManager.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
 };
 
-BattleManager.prototype.checkGameJudge = function(){
+RuleManager.prototype.checkGameJudge = function(){
 	if (this._money >= CONSTANT.CLEAR_NEED_MONEY) {
 		// ゲームクリア
 		this.core.scene_manager.changeScene("win");
@@ -38,15 +38,15 @@ BattleManager.prototype.checkGameJudge = function(){
 	return false;
 };
 
-BattleManager.prototype.draw = function(){
+RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
 };
 
-BattleManager.prototype.pass = function(){
+RuleManager.prototype.pass = function(){
 	this.scene.changeSubScene("pass");
 };
 
-BattleManager.prototype.chooseHigh = function(){
+RuleManager.prototype.chooseHigh = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num > opened_num) {
@@ -61,7 +61,7 @@ BattleManager.prototype.chooseHigh = function(){
 	}
 };
 
-BattleManager.prototype.chooseLow = function(){
+RuleManager.prototype.chooseLow = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num > opened_num) {
@@ -76,7 +76,7 @@ BattleManager.prototype.chooseLow = function(){
 	}
 };
 
-BattleManager.prototype.chooseSame = function(){
+RuleManager.prototype.chooseSame = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num === opened_num) {
@@ -88,11 +88,11 @@ BattleManager.prototype.chooseSame = function(){
 	}
 };
 
-BattleManager.prototype.money = function(){
+RuleManager.prototype.money = function(){
 	return this._money;
 };
 
 
 
 
-module.exports = BattleManager;
+module.exports = RuleManager;
