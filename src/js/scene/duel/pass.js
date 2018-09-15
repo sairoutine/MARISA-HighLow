@@ -26,28 +26,36 @@ SceneDuelPass.prototype.beforeDraw = function(){
 	}
 	else if (this.frame_count === 60) {
 		this.parent.startSerifExtinguish();
-
-		// クリア判定
-		if (this.parent.rule_manager.isClear()) {
-			this.core.scene_manager.setFadeOut(60, "black");
-			this.core.scene_manager.changeScene("clear");
-		}
-
 		return;
 	}
-	else if (this.parent.rule_manager.isClear()) {
-		// クリア済みならシーンが変わるまで何もしない
-	}
 	else {
-		// 左のカードを右へ移動する演出
-		var x = this.parent.deck().topCard().x() + 10;
-		this.parent.deck().topCard().x(x);
+		// フェードアウト中は何もしない
+		if (this.core.scene_manager.isInFadeOut()) {
+			return;
+		}
 
+		var x = this.parent.deck().topCard().x();
+
+		// 左のカードを右へ移動する演出
+		if (x < CONSTANT.OPEN_CARD_X) {
+			x += 10;
+			this.parent.deck().topCard().x(x);
+		}
 		// 移動が終わったら
-		if (x >= CONSTANT.OPEN_CARD_X) {
+		else {
 			this.parent.setNewCard();
 
-			if (this.parent.rule_manager.isGameOver()) {
+			if (this.parent.rule_manager.isClear()) {
+				// クリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("clear");
+			}
+			else if (this.parent.rule_manager.isExClear()) {
+				// EXクリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("ex_clear");
+			}
+			else if (this.parent.rule_manager.isGameOver()) {
 				// ゲームオーバー
 				this.parent.changeSubScene("not_reach");
 			}
@@ -57,6 +65,7 @@ SceneDuelPass.prototype.beforeDraw = function(){
 			}
 		}
 	}
+
 };
 
 SceneDuelPass.prototype.draw = function(){

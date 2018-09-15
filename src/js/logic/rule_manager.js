@@ -24,12 +24,16 @@ RuleManager.prototype.beforeDraw = function(){
 };
 
 RuleManager.prototype.isGameOver = function(){
-	return(this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY);
+	return this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY;
 };
 
 RuleManager.prototype.isClear = function(){
-	return this._money >= CONSTANT.CLEAR_NEED_MONEY;
+	return this.scene.deck().count() === 0 && CONSTANT.EX_CLEAR_NEED_MONEY > this._money && this._money >= CONSTANT.CLEAR_NEED_MONEY;
 };
+RuleManager.prototype.isExClear = function(){
+	return this.scene.deck().count() === 0 && this._money >= CONSTANT.EX_CLEAR_NEED_MONEY;
+};
+
 
 RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
