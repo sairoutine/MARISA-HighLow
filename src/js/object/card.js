@@ -1,7 +1,8 @@
 'use strict';
 
-var BaseObject = require('../hakurei').Object.Sprite;
+var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var Card = function(scene) {
 	BaseObject.apply(this, arguments);
@@ -46,50 +47,56 @@ Card.prototype.beforeDraw = function(){
 
 Card.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
+
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.translate(this.x(), this.y());
+
+	if (this.type() === CONSTANT.TYPE_RED) {
+		ctx.fillStyle = "red";
+	}
+	else if (this.type() === CONSTANT.TYPE_BLUE) {
+		ctx.fillStyle = "blue";
+	}
+	else if (this.type() === CONSTANT.TYPE_GREEN) {
+		ctx.fillStyle = "green";
+	}
+	else if (this.type() === CONSTANT.TYPE_PURPLE) {
+		ctx.fillStyle = "purple";
+	}
+
+	var offset_x = this.width()/2;
+	var offset_y = this.height()/2;
+	ctx.fillRect(-offset_x, -offset_y, this.width(), this.height());
+
+	ctx.strokeStyle = "white";
+	ctx.beginPath();
+	ctx.moveTo( offset_x, offset_y);
+	ctx.lineTo(-offset_x, offset_y);
+	ctx.lineTo(-offset_x, -offset_y);
+	ctx.lineTo( offset_x, -offset_y);
+	ctx.closePath();
+	ctx.stroke();
+
+	// 表なら数字も描画
+	if (!this._is_reverse) {
+		ctx.fillStyle = "white";
+		ctx.font = "192px 'MyFont'";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+
+		ctx.fillText(this.number(), 0, 0);
+	}
+
+	ctx.restore();
 };
 
-Card.prototype.spriteName = function(){
-	return "trump";
-};
-Card.prototype.spriteIndexX = function(){
-	if (this._is_reverse) {
-		return this._type + 4;
-	}
-	else {
-		if (this._number >= 8) {
-			return 4 + this._type;
-		}
-		else {
-			return this._type;
-		}
-	}
-};
-Card.prototype.spriteIndexY = function(){
-	if (this._is_reverse) {
-		return 6;
-	}
-	else {
-		if (this._number >= 8) {
-			return this._number - 1 - 7;
-		}
-		else {
-			return this._number - 1;
-		}
-	}
-};
-Card.prototype.scaleWidth = function(){
-	return 2.25;
-};
-Card.prototype.scaleHeight = function(){
-	return 2.25;
-};
 
-
-Card.prototype.spriteWidth = function(){
-	return 60;
+Card.prototype.width = function(){
+	return 135;
 };
-Card.prototype.spriteHeight = function(){
-	return 90;
+Card.prototype.height = function(){
+	return 200;
 };
 
 module.exports = Card;
