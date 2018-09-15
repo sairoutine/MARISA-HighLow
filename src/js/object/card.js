@@ -69,10 +69,12 @@ Card.prototype.draw = function(){
 	var offset_y = this.height()/2;
 	ctx.fillRect(-offset_x, -offset_y, this.width(), this.height());
 
+	ctx.lineWidth = 5;
 	ctx.strokeStyle = "white";
+
 	ctx.beginPath();
-	ctx.moveTo( offset_x, offset_y);
-	ctx.lineTo(-offset_x, offset_y);
+	ctx.moveTo( offset_x,  offset_y);
+	ctx.lineTo(-offset_x,  offset_y);
 	ctx.lineTo(-offset_x, -offset_y);
 	ctx.lineTo( offset_x, -offset_y);
 	ctx.closePath();
@@ -86,6 +88,19 @@ Card.prototype.draw = function(){
 		ctx.textBaseline = 'middle';
 
 		ctx.fillText(this.number(), 0, 0);
+	}
+	// 裏
+	else {
+		ctx.beginPath();
+		ctx.moveTo( offset_x,  offset_y);
+		ctx.lineTo(-offset_x, -offset_y);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(-offset_x,  offset_y);
+		ctx.lineTo( offset_x, -offset_y);
+		ctx.closePath();
+		ctx.stroke();
 	}
 
 	ctx.restore();
