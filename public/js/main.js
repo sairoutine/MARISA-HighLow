@@ -5,13 +5,16 @@ var AssetsConfig = {};
 AssetsConfig.images = {
 	//https://www.pixiv.net/member_illust.php?mode=medium&illust_id=37556413
 	"caution": "./image/caution.png",
-	"trump": "./image/trump.gif",
+	//"trump": "./image/trump.gif",
 	//http://sozai.akuseru-design.com/category/sozai/button/
 	"button_white": "./image/button_white.png",
 	"button_gray": "./image/button_gray.png",
 	// http://www.pasocafe.com/balloon/balloon_01.php
-	"balloon_left": "./image/balloon_left.png",
-	"balloon_right": "./image/balloon_right.png",
+	"balloon_up_left": "./image/balloon_up_left.png",
+	"balloon_down_left": "./image/balloon_down_left.png",
+	"balloon_up_right": "./image/balloon_up_right.png",
+	// http://www.vita-chi.net/message.htm
+	"message_window": "./image/message_window.png",
 };
 
 AssetsConfig.sounds = {
@@ -39,6 +42,15 @@ var CONSTANT = {
 	TYPE_BLUE:   1,
 	TYPE_GREEN:  2,
 	TYPE_PURPLE: 3,
+
+	OPEN_CARD_X: 330,
+	OPEN_CARD_Y: 330,
+
+	TOP_CARD_X: 130,
+	TOP_CARD_Y: 330,
+
+	CLEAR_NEED_MONEY: 100000000,
+	EX_CLEAR_NEED_MONEY: 2000000000,
 };
 module.exports = CONSTANT;
 
@@ -51,7 +63,8 @@ var SceneWarnings = require('./scene/warnings');
 var SceneLoading = require('./hakurei').Scene.Loading;
 var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
-var SceneWin = require('./scene/win');
+var SceneClear = require('./scene/clear');
+var SceneExClear = require('./scene/ex_clear');
 
 var Assets = require('./assets');
 
@@ -64,7 +77,8 @@ var Game = function(canvas) {
 	this.scene_manager.addScene("warnings", new SceneWarnings(this));
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
-	this.scene_manager.addScene("win", new SceneWin(this));
+	this.scene_manager.addScene("clear", new SceneClear(this));
+	this.scene_manager.addScene("ex_clear", new SceneExClear(this));
 };
 Util.inherit(Game, Core);
 
@@ -79,7 +93,7 @@ Game.prototype.init = function () {
 
 module.exports = Game;
 
-},{"./assets":1,"./hakurei":4,"./scene/duel":64,"./scene/rule":74,"./scene/warnings":75,"./scene/win":76}],4:[function(require,module,exports){
+},{"./assets":1,"./hakurei":4,"./scene/clear":64,"./scene/duel":65,"./scene/ex_clear":75,"./scene/rule":76,"./scene/warnings":77}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = require("./hakureijs/index");
@@ -2693,6 +2707,7 @@ SceneManager.prototype._changeNextSceneIfReserved = function() {
 
 		// if returnScene method is called, scene will not be inited.
 		if(this._is_reserved_next_scene_init) {
+			this._resetFadeOut();
 			current_scene.init.apply(current_scene, argument_list);
 		}
 
@@ -2728,6 +2743,11 @@ SceneManager.prototype.setFadeOut = function(duration, color) {
 	this._fade_out_duration = duration;
 	this._fade_out_color = color || 'black';
 };
+SceneManager.prototype._resetFadeOut = function() {
+	this._fade_out_duration = null;
+	this._fade_out_color = null;
+};
+
 SceneManager.prototype.startFadeOut = function() {
 	if(!this.isSetFadeOut()) return;
 
@@ -13393,50 +13413,108 @@ module.exports = GenerateButton;
 
 var Util = require('../hakurei').util;
 var BaseObject = require('../hakurei').Object.Base;
+var CONSTANT = require('../constant');
 
-var BattleManager = function(scene) {
+var RuleManager = function(scene) {
 	BaseObject.apply(this, arguments);
-};
-Util.inherit(BattleManager, BaseObject);
 
-BattleManager.prototype.init = function(serif_idx){
+	this._bullet_num = 0;
+	this._money = 0;
+};
+Util.inherit(RuleManager, BaseObject);
+
+RuleManager.prototype.init = function(serif_idx){
 	BaseObject.prototype.init.apply(this, arguments);
+
+	this._bullet_num = 5;
+	this._money = 1;
 };
 
-BattleManager.prototype.beforeDraw = function(){
+RuleManager.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
 };
 
-BattleManager.prototype.draw = function(){
+RuleManager.prototype.isGameOver = function(){
+	return this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY;
+};
+
+RuleManager.prototype.isClear = function(){
+	return this.scene.deck().count() === 0 && CONSTANT.EX_CLEAR_NEED_MONEY > this._money && this._money >= CONSTANT.CLEAR_NEED_MONEY;
+};
+RuleManager.prototype.isExClear = function(){
+	return this.scene.deck().count() === 0 && this._money >= CONSTANT.EX_CLEAR_NEED_MONEY;
+};
+
+
+RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
 };
 
-BattleManager.prototype.pass = function(){
+RuleManager.prototype.pass = function(){
+	this.scene.changeSubScene("pass");
+};
 
-	this.scene._opened_card = this.scene._deck.serve();
-	this.scene._opened_card.flip();
-	this.scene._opened_card.setPosition(330, 330);
-
-	if (this.scene._deck.topCard()) {
-		this.scene._deck.topCard().setPosition(130, 330);
+RuleManager.prototype.chooseHigh = function(){
+	var top_num = this.scene.deck().topCard().number();
+	var opened_num = this.scene.opendCard().number();
+	if (top_num > opened_num) {
+		this._money *= 2;
+		this.scene.changeSubScene("win");
 	}
-	//this.scene.changeSubScene("pass");
+	else if (top_num === opened_num) {
+		this.scene.changeSubScene("draw");
+	}
+	else if (top_num < opened_num) {
+		this.scene.changeSubScene("lose");
+	}
 };
 
-BattleManager.prototype.chooseHigh = function(){
+RuleManager.prototype.chooseLow = function(){
+	var top_num = this.scene.deck().topCard().number();
+	var opened_num = this.scene.opendCard().number();
+	if (top_num > opened_num) {
+		this.scene.changeSubScene("lose");
+	}
+	else if (top_num === opened_num) {
+		this.scene.changeSubScene("draw");
+	}
+	else if (top_num < opened_num) {
+		this._money *= 2;
+		this.scene.changeSubScene("win");
+	}
 };
 
-BattleManager.prototype.chooseLow = function(){
+RuleManager.prototype.chooseSame = function(){
+	var top_num = this.scene.deck().topCard().number();
+	var opened_num = this.scene.opendCard().number();
+	if (top_num === opened_num) {
+		this._money *= 10;
+		this.scene.changeSubScene("win");
+	}
+	else {
+		this.scene.changeSubScene("lose");
+	}
 };
 
-BattleManager.prototype.chooseSame = function(){
+RuleManager.prototype.roulette = function(){
+	var fired_bullet = Util.getRandomInt(this._bullet_num);
+	this._bullet_num--;
+
+	return(fired_bullet === 1 ? true : false);
 };
 
 
 
-module.exports = BattleManager;
+RuleManager.prototype.money = function(){
+	return this._money;
+};
 
-},{"../hakurei":4}],59:[function(require,module,exports){
+
+
+
+module.exports = RuleManager;
+
+},{"../constant":2,"../hakurei":4}],59:[function(require,module,exports){
 'use strict';
 var Game = require('./game');
 
@@ -13462,8 +13540,9 @@ if(window.require) {
 },{"./game":3}],60:[function(require,module,exports){
 'use strict';
 
-var BaseObject = require('../hakurei').Object.Sprite;
+var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var Card = function(scene) {
 	BaseObject.apply(this, arguments);
@@ -13489,7 +13568,9 @@ Card.prototype.init = function(){
 Card.prototype.flip = function(){
 	this._is_reverse = !this._is_reverse;
 };
-
+Card.prototype.isReverse = function(){
+	return this._is_reverse;
+};
 Card.prototype.setType = function(type, number){
 	this._type   = type;
 	this._number = number;
@@ -13506,55 +13587,76 @@ Card.prototype.beforeDraw = function(){
 
 Card.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
-};
 
-Card.prototype.spriteName = function(){
-	return "trump";
-};
-Card.prototype.spriteIndexX = function(){
-	if (this._is_reverse) {
-		return this._type + 4;
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.translate(this.x(), this.y());
+
+	if (this.type() === CONSTANT.TYPE_RED) {
+		ctx.fillStyle = "red";
 	}
+	else if (this.type() === CONSTANT.TYPE_BLUE) {
+		ctx.fillStyle = "blue";
+	}
+	else if (this.type() === CONSTANT.TYPE_GREEN) {
+		ctx.fillStyle = "green";
+	}
+	else if (this.type() === CONSTANT.TYPE_PURPLE) {
+		ctx.fillStyle = "purple";
+	}
+
+	var offset_x = this.width()/2;
+	var offset_y = this.height()/2;
+	ctx.fillRect(-offset_x, -offset_y, this.width(), this.height());
+
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = "white";
+
+	ctx.beginPath();
+	ctx.moveTo( offset_x,  offset_y);
+	ctx.lineTo(-offset_x,  offset_y);
+	ctx.lineTo(-offset_x, -offset_y);
+	ctx.lineTo( offset_x, -offset_y);
+	ctx.closePath();
+	ctx.stroke();
+
+	// 表なら数字も描画
+	if (!this._is_reverse) {
+		ctx.fillStyle = "white";
+		ctx.font = "192px 'MyFont'";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+
+		ctx.fillText(this.number(), 0, 0);
+	}
+	// 裏
 	else {
-		if (this._number >= 8) {
-			return 4 + this._type;
-		}
-		else {
-			return this._type;
-		}
+		ctx.beginPath();
+		ctx.moveTo( offset_x,  offset_y);
+		ctx.lineTo(-offset_x, -offset_y);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(-offset_x,  offset_y);
+		ctx.lineTo( offset_x, -offset_y);
+		ctx.closePath();
+		ctx.stroke();
 	}
-};
-Card.prototype.spriteIndexY = function(){
-	if (this._is_reverse) {
-		return 6;
-	}
-	else {
-		if (this._number >= 8) {
-			return this._number - 1 - 7;
-		}
-		else {
-			return this._number - 1;
-		}
-	}
-};
-Card.prototype.scaleWidth = function(){
-	return 2.25;
-};
-Card.prototype.scaleHeight = function(){
-	return 2.25;
+
+	ctx.restore();
 };
 
 
-Card.prototype.spriteWidth = function(){
-	return 60;
+Card.prototype.width = function(){
+	return 135;
 };
-Card.prototype.spriteHeight = function(){
-	return 90;
+Card.prototype.height = function(){
+	return 200;
 };
 
 module.exports = Card;
 
-},{"../hakurei":4}],61:[function(require,module,exports){
+},{"../constant":2,"../hakurei":4}],61:[function(require,module,exports){
 'use strict';
 
 var BaseObject = require('../hakurei').Object.Container;
@@ -13578,6 +13680,7 @@ Deck.prototype.init = function(){
 	this._setTopCard();
 };
 
+// デッキ内のカード生成
 Deck.prototype._generateCard = function(){
 	this.removeAllObject();
 	for (var i = 1; i <= 9; i++) { // number
@@ -13590,9 +13693,11 @@ Deck.prototype._generateCard = function(){
 	}
 };
 
+// デッキトップのカードを決める
 Deck.prototype._setTopCard = function(){
 	var count = this.count();
 
+	// デッキにもうカードがなければデッキトップも空
 	if (count === 0) {
 		this._top_card = null;
 		return;
@@ -13604,14 +13709,12 @@ Deck.prototype._setTopCard = function(){
 
 	this._top_card = this.get(id);
 };
-Deck.prototype.topCard = function(){
-	return this._top_card;
-};
 
 Deck.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
 };
 
+// 残りカードのボードを表示
 Deck.prototype.draw = function(){
 	var ctx = this.core.ctx;
 	ctx.save();
@@ -13653,18 +13756,32 @@ Deck.prototype.draw = function(){
 
 		ctx.fillStyle = "white";
 		ctx.font = "18px 'MyFont'";
-		ctx.fillText(card.number(), x + 5, y + 20);
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+
+		ctx.fillText(card.number(), x + 10, y + 15);
 	}
 	ctx.restore();
 };
 
+// デッキトップのカードを返し、新しいカードをデッキトップにする
 Deck.prototype.serve = function(){
 	var ret = this.removeObject(this._top_card);
+
+	// 表にする
+	if (ret.isReverse()) {
+		ret.flip();
+	}
 
 	this._setTopCard();
 
 	return ret;
 };
+
+Deck.prototype.topCard = function(){
+	return this._top_card;
+};
+
 
 module.exports = Deck;
 
@@ -13676,20 +13793,80 @@ var Util = require('../hakurei').Util;
 
 var JudgeMessage = function(scene) {
 	BaseObject.apply(this, arguments);
+
+	this._text = "";
+	this._color = null;
+	this._transparent = 0.0;
+	this._is_start_extinguish = false;
+	this._is_start_show = false;
 };
 Util.inherit(JudgeMessage, BaseObject);
 
 JudgeMessage.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
+
+	this._text = "";
+	this._color = "white";
+	this._transparent = 0.0;
+	this._is_start_extinguish = false;
+	this._is_start_show = false;
 };
 
 JudgeMessage.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
+
+	if (this._is_start_extinguish && this._transparent !== 0.0) {
+		this._transparent -= 0.1;
+
+		if (this._transparent <= 0.0) {
+			this._is_start_extinguish = false;
+			this._transparent = 0.0;
+		}
+	}
+	else if (this._is_start_show && this._transparent !== 1.0) {
+		this._transparent += 0.1;
+
+		if (this._transparent >= 1.0) {
+			this._is_start_show = false;
+			this._transparent = 1.0;
+		}
+	}
+
 };
 
 JudgeMessage.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
+
+	if (this._transparent === 0.0) {
+		return;
+	}
+
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.globalAlpha = this._transparent;
+	ctx.fillStyle = this._color;
+	ctx.font = "64px 'MyFont'";
+	ctx.textAlign = 'left';
+	ctx.textBaseAlign = 'top';
+	ctx.fillText(this._text, 170, 500);
+	ctx.restore();
+
 };
+
+JudgeMessage.prototype.show = function(text, color){
+	this._transparent = 0.0;
+	this._is_start_show = true;
+	this._is_start_extinguish = false;
+	this._text = text;
+	this._color = color;
+};
+
+JudgeMessage.prototype.extinguish = function(){
+	this._is_start_show = false;
+	this._is_start_extinguish = true;
+};
+
+
 
 module.exports = JudgeMessage;
 
@@ -13699,22 +13876,113 @@ module.exports = JudgeMessage;
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
 
+var MESSAGE_OFFSET_X = -60;
+
+// ウィンドウの大きさ
+var WINDOW_SCALE = {
+	WIDTH: 1,
+	HEIGHT: 1,
+};
+
+
 var Serif = function(scene) {
 	BaseObject.apply(this, arguments);
+
+	this._text = "";
+	this._transparent = 0.0;
+	this._is_start_extinguish = false;
 };
 Util.inherit(Serif, BaseObject);
 
 Serif.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
+
+	this._text = "";
+	this._transparent = 0.0;
+	this._is_start_extinguish = false;
 };
 
 Serif.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
+
+	if (this._is_start_extinguish && this._transparent !== 0.0) {
+		this._transparent -= 0.1;
+
+		if (this._transparent <= 0.0) {
+			this._is_start_extinguish = false;
+			this._transparent = 0.0;
+		}
+	}
 };
 
 Serif.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
+
+	if (this._transparent === 0.0) {
+		return;
+	}
+
+	this._drawWindow(580, 200);
+	this._drawText(580, 200, this._text);
 };
+
+Serif.prototype._drawWindow = function (x, y) {
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.translate(x, y);
+
+	var fukidashi = this.core.image_loader.getImage("balloon_down_left");
+
+	ctx.globalAlpha = this._transparent;
+
+	// x,y座標は左上が基準位置
+	ctx.drawImage(fukidashi,
+		0 + MESSAGE_OFFSET_X,
+		0,
+		fukidashi.width * WINDOW_SCALE.WIDTH,
+		fukidashi.height * WINDOW_SCALE.HEIGHT
+	);
+	ctx.restore();
+
+};
+
+
+
+Serif.prototype._drawText = function(x, y, text){
+	y -= -40;
+	x += MESSAGE_OFFSET_X + 50;
+
+	var font_size = 36;
+
+	var sentences = text.split("\n");
+	var ctx = this.core.ctx;
+	// 文言
+	ctx.save();
+	ctx.globalAlpha = this._transparent;
+	ctx.fillStyle = "black";
+	ctx.font = font_size.toString() + "px 'MyFont'";
+	ctx.textAlign = 'left';
+	ctx.textBaseAlign = 'top';
+
+	for(var i = 0, len = sentences.length; i < len; i++) {
+		y += font_size * 1.5;
+		ctx.fillText(sentences[i], x, y); // 1行表示
+
+	}
+
+	ctx.restore();
+};
+
+Serif.prototype.show = function(text){
+	this._transparent = 1.0;
+	this._text = text;
+};
+
+Serif.prototype.startExtinguish = function(){
+	this._is_start_extinguish = true;
+};
+
+
 
 module.exports = Serif;
 
@@ -13724,6 +13992,56 @@ module.exports = Serif;
 var BaseScene = require('../hakurei').Scene.Base;
 
 var Util = require('../hakurei').Util;
+
+var Scene = function(core) {
+	BaseScene.apply(this, arguments);
+};
+Util.inherit(Scene, BaseScene);
+
+Scene.prototype.init = function(field_name, is_right){
+	BaseScene.prototype.init.apply(this, arguments);
+
+	this.core.scene_manager.setFadeIn(60, "black");
+};
+
+Scene.prototype.beforeDraw = function(){
+	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	if (this.core.input_manager.isLeftClickPush()) {
+		this.core.scene_manager.setFadeOut(60, "black");
+		this.core.scene_manager.changeScene("rule");
+	}
+};
+
+Scene.prototype.draw = function(){
+	BaseScene.prototype.draw.apply(this, arguments);
+	var ctx = this.core.ctx;
+	// 背景
+	ctx.save();
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, this.width, this.height);
+	ctx.restore();
+
+	ctx.save();
+	ctx.fillStyle = "white";
+	ctx.font = "48px 'MyFont'";
+	ctx.textAlign = 'center';
+	ctx.textBaseAlign = 'top';
+
+	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
+
+	ctx.restore();
+};
+
+module.exports = Scene;
+
+},{"../hakurei":4}],65:[function(require,module,exports){
+'use strict';
+
+var BaseScene = require('../hakurei').Scene.Base;
+
+var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 var RuleManager = require('../logic/rule_manager');
 var SceneDuelChoose   = require('./duel/choose');
 var SceneDuelDead     = require('./duel/dead');
@@ -13735,12 +14053,12 @@ var SceneDuelWin      = require('./duel/win');
 var SceneDuelTutorial = require('./duel/tutorial');
 
 var Deck = require('../object/deck');
+var Serif = require('../object/serif');
 
 var Scene = function(core) {
 	BaseScene.apply(this, arguments);
 
 	this._deck = new Deck(this);
-	this._current_yen = 0;
 
 	this._opened_card = null;
 
@@ -13754,8 +14072,9 @@ var Scene = function(core) {
 	this.addSubScene("win", new SceneDuelWin(core));
 	this.addSubScene("tutorial", new SceneDuelTutorial(core));
 
+	this._serif = new Serif(this);
 	this.rule_manager = new RuleManager(this);
-	this.addObjects(this.rule_manager);
+	this.addObjects([this._serif, this.rule_manager]);
 };
 Util.inherit(Scene, BaseScene);
 
@@ -13763,15 +14082,8 @@ Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
 
 	this._deck.init();
-	this._current_yen = 1;
 
-	// TODO:
-	this._opened_card = this._deck.serve();
-	this._opened_card.flip(); // open
-	this._opened_card.setPosition(330, 330);
-
-	// TODO:
-	this._deck.topCard().setPosition(130, 330);
+	this.setNewCard();
 
 	if (this.core.is_finish_tutorial) {
 		this.changeSubScene("choose");
@@ -13780,6 +14092,33 @@ Scene.prototype.init = function(field_name, is_right){
 		this.core.is_finish_tutorial = true;
 		this.changeSubScene("tutorial");
 	}
+};
+
+
+Scene.prototype.setNewCard = function(){
+	this._opened_card = this._deck.serve();
+	this._opened_card.setPosition(CONSTANT.OPEN_CARD_X, CONSTANT.OPEN_CARD_Y);
+
+	if (this._deck.topCard()) {
+		this._deck.topCard().setPosition(CONSTANT.TOP_CARD_X, CONSTANT.TOP_CARD_Y);
+	}
+};
+
+Scene.prototype.deck = function(){
+	return this._deck;
+};
+Scene.prototype.opendCard = function(){
+	return this._opened_card;
+};
+
+// セリフ表示
+Scene.prototype.showSerif = function(text){
+	this._serif.show(text);
+};
+
+// セリフ消滅
+Scene.prototype.startSerifExtinguish = function(){
+	this._serif.startExtinguish();
 };
 
 Scene.prototype.beforeDraw = function(){
@@ -13808,13 +14147,13 @@ Scene.prototype.draw = function(){
 
 	this._deck.draw();
 
+	// 既に開かれたカードの描画
+	this._opened_card.draw();
+
 	// 候補カードの描画
 	if (this._deck.topCard()) {
 		this._deck.topCard().draw();
 	}
-
-	// 既に開かれたカードの描画
-	this._opened_card.draw();
 
 	// デッキ残り枚数の描画
 	// TODO:
@@ -13829,7 +14168,7 @@ Scene.prototype.draw = function(){
 
 	// 所持金
 	// TODO:
-	ctx.fillText("所持金：" + this._current_yen + "円", 50, 600);
+	ctx.fillText("所持金：" + this.rule_manager.money() + "円", 50, 600);
 	ctx.restore();
 
 	BaseScene.prototype.draw.apply(this, arguments);
@@ -13837,7 +14176,7 @@ Scene.prototype.draw = function(){
 
 module.exports = Scene;
 
-},{"../hakurei":4,"../logic/rule_manager":58,"../object/deck":61,"./duel/choose":66,"./duel/dead":67,"./duel/draw":68,"./duel/lose":69,"./duel/not_reach":70,"./duel/pass":71,"./duel/tutorial":72,"./duel/win":73}],65:[function(require,module,exports){
+},{"../constant":2,"../hakurei":4,"../logic/rule_manager":58,"../object/deck":61,"../object/serif":63,"./duel/choose":67,"./duel/dead":68,"./duel/draw":69,"./duel/lose":70,"./duel/not_reach":71,"./duel/pass":72,"./duel/tutorial":73,"./duel/win":74}],66:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('../../hakurei').Scene.Base;
@@ -13852,7 +14191,7 @@ Util.inherit(SceneDuelBase, BaseScene);
 
 module.exports = SceneDuelBase;
 
-},{"../../hakurei":4}],66:[function(require,module,exports){
+},{"../../hakurei":4}],67:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
@@ -13888,21 +14227,25 @@ SceneDuelChoose.prototype.beforeDraw = function(){
 
 	if(this.core.input_manager.isLeftClickPush()) {
 		if(this._pass_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Pass!");
 			this.parent.rule_manager.pass();
 
 			this._pass_button.setVariable("isclick", true);
 		}
 		else if(this._high_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("High!");
 			this.parent.rule_manager.chooseHigh();
 
 			this._high_button.setVariable("isclick", true);
 		}
 		else if(this._low_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Low!");
 			this.parent.rule_manager.chooseLow();
 
 			this._low_button.setVariable("isclick", true);
 		}
 		else if(this._same_button.checkCollisionWithPosition(x, y)) {
+			this.parent.showSerif("Same!");
 			this.parent.rule_manager.chooseSame();
 
 			this._same_button.setVariable("isclick", true);
@@ -13931,102 +14274,317 @@ SceneDuelChoose.prototype.draw = function(){
 
 module.exports = SceneDuelChoose;
 
-},{"../../hakurei":4,"../../logic/generate_button":57,"./base":65}],67:[function(require,module,exports){
+},{"../../hakurei":4,"../../logic/generate_button":57,"./base":66}],68:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
 
+var FLASH_COUNT = 3;
 
 var SceneDuelDead = function(core) {
 	BaseScene.apply(this, arguments);
+
+	this._flash_transparent = 0.0;
+	this._message_transparent = 0.0;
 };
 Util.inherit(SceneDuelDead, BaseScene);
 
 SceneDuelDead.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	this._flash_transparent = 0.0;
+	this._message_transparent = 0.0;
 };
 
 
 SceneDuelDead.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	if (this.frame_count <= FLASH_COUNT) {
+		this._flash_transparent = this.frame_count / FLASH_COUNT;
+	}
+	else if (this.frame_count <= FLASH_COUNT*2) {
+		this._flash_transparent = (FLASH_COUNT*2 - this.frame_count) / FLASH_COUNT;
+	}
+	else if (this.frame_count <= 30) {
+		// フラッシュから少し待機
+	}
+	else if (this.frame_count <= 60) {
+		this._message_transparent += (1 / (60 - 30));
+	}
+	else {
+		if(this.core.input_manager.isLeftClickPush()) {
+			// ゲームを最初から
+			this.core.scene_manager.changeScene("duel");
+		}
+	}
 };
 
 SceneDuelDead.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
+	var ctx = this.core.ctx;
+	// フラッシュ
+	if (this._flash_transparent > 0.0) {
+		ctx.save();
+		ctx.fillStyle = "white";
+		ctx.globalAlpha = this._flash_transparent;
+		ctx.fillRect(0, 0, this.width, this.height);
+		ctx.restore();
+	}
+	// メッセージウィンドウ
+	else if (this._message_transparent > 0.0) {
+		ctx.save();
+		ctx.globalAlpha = this._message_transparent;
+		ctx.translate(this.width/2, this.height/2);
+
+		// ウィンドウ
+		var image = this.core.image_loader.getImage("message_window");
+		ctx.drawImage(image,
+			-400/2,
+			-200/2,
+			400,
+			200
+		);
+
+		// 文字
+		ctx.fillStyle = "red";
+		ctx.font = "36px 'MyFont'";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText("射殺された...", 0, 0);
+
+		ctx.restore();
+	}
 };
 
 module.exports = SceneDuelDead;
 
-},{"../../hakurei":4,"./base":65}],68:[function(require,module,exports){
+},{"../../hakurei":4,"./base":66}],69:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
-
-var Serif = require('../../object/serif');
 var JudgeMessage = require('../../object/judge_message');
+var CONSTANT = require('../../constant');
 
 var SceneDuelDraw = function(core) {
 	BaseScene.apply(this, arguments);
-	this._serif = new Serif(this);
 	this._judge_message = new JudgeMessage(this);
-	this.addObjects([this._serif, this._judge_message]);
+	this.addObjects([this._judge_message]);
 };
 Util.inherit(SceneDuelDraw, BaseScene);
 
 SceneDuelDraw.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	// トップを表に
+	this.parent.deck().topCard().flip();
+
+	// 勝敗メッセージ
+	this._judge_message.show("DRAW", "green");
 };
 
 
 SceneDuelDraw.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	// N秒間は表にしたカードをその場所で見せ続ける
+	if(this.frame_count < 60) {
+		return;
+	}
+	else if (this.frame_count === 60) {
+		this.parent.startSerifExtinguish();
+		this._judge_message.extinguish();
+		return;
+	}
+	else {
+		// フェードアウト中は何もしない
+		if (this.core.scene_manager.isInFadeOut()) {
+			return;
+		}
+
+		var x = this.parent.deck().topCard().x();
+
+		// 左のカードを右へ移動する演出
+		if (x < CONSTANT.OPEN_CARD_X) {
+			x += 10;
+			this.parent.deck().topCard().x(x);
+		}
+		// 移動が終わったら
+		else {
+			this.parent.setNewCard();
+
+			if (this.parent.rule_manager.isClear()) {
+				// クリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("clear");
+			}
+			else if (this.parent.rule_manager.isExClear()) {
+				// EXクリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("ex_clear");
+			}
+			else if (this.parent.rule_manager.isGameOver()) {
+				// ゲームオーバー
+				this.parent.changeSubScene("not_reach");
+			}
+			else {
+				// 次へ
+				this.parent.changeSubScene("choose");
+			}
+		}
+	}
+
+
 };
 
 SceneDuelDraw.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
 };
 
 module.exports = SceneDuelDraw;
 
-},{"../../hakurei":4,"../../object/judge_message":62,"../../object/serif":63,"./base":65}],69:[function(require,module,exports){
+},{"../../constant":2,"../../hakurei":4,"../../object/judge_message":62,"./base":66}],70:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
-var Serif = require('../../object/serif');
 var JudgeMessage = require('../../object/judge_message');
-
-
+var CONSTANT = require('../../constant');
 
 var SceneDuelLose = function(core) {
 	BaseScene.apply(this, arguments);
-	this._serif = new Serif(this);
 	this._judge_message = new JudgeMessage(this);
-	this.addObjects([this._serif, this._judge_message]);
+	this.addObjects([this._judge_message]);
+
+	this._gun_transparent = 0.0;
+	this._is_start_gun_extinguish = false;
 };
 Util.inherit(SceneDuelLose, BaseScene);
 
 SceneDuelLose.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	this._gun_transparent = 0.0;
+	this._is_start_gun_extinguish = false;
+
+	// トップを表に
+	this.parent.deck().topCard().flip();
+
+	// 勝敗メッセージ
+	this._judge_message.show("LOSE...", "blue");
 };
 
 
 SceneDuelLose.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	if (this._is_start_gun_extinguish && this._gun_transparent !== 0.0) {
+		this._gun_transparent -= 0.1;
+
+		if (this._gun_transparent <= 0.0) {
+			this._is_start_gun_extinguish = false;
+			this._gun_transparent = 0.0;
+		}
+	}
+
+	// N秒間は表にしたカードをその場所で見せ続ける
+	if(this.frame_count < 60) {
+		return;
+	}
+	else if (this.frame_count === 60) {
+		this.parent.startSerifExtinguish();
+		this._judge_message.extinguish();
+
+		this._showGun();
+		return;
+	}
+	// N秒間は銃を見せ続ける
+	else if(this.frame_count < 120) {
+		return;
+	}
+	else if (this.frame_count === 120) {
+		// ロシアンルーレット
+		if (this.parent.rule_manager.roulette()) {
+			// lose シーンはここで終わり
+			this.parent.changeSubScene("dead");
+		}
+		else {
+			this._hideGun();
+		}
+		return;
+	}
+	else {
+		// フェードアウト中は何もしない
+		if (this.core.scene_manager.isInFadeOut()) {
+			return;
+		}
+
+		var x = this.parent.deck().topCard().x();
+
+		// 左のカードを右へ移動する演出
+		if (x < CONSTANT.OPEN_CARD_X) {
+			x += 10;
+			this.parent.deck().topCard().x(x);
+		}
+		// 移動が終わったら
+		else {
+			this.parent.setNewCard();
+
+			if (this.parent.rule_manager.isClear()) {
+				// クリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("clear");
+			}
+			else if (this.parent.rule_manager.isExClear()) {
+				// EXクリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("ex_clear");
+			}
+			else if (this.parent.rule_manager.isGameOver()) {
+				// ゲームオーバー
+				this.parent.changeSubScene("not_reach");
+			}
+			else {
+				// 次へ
+				this.parent.changeSubScene("choose");
+			}
+		}
+	}
+
 };
 
 SceneDuelLose.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
+
+	if (this._gun_transparent === 0.0) {
+		return;
+	}
+
+	// TODO: 銃を表示
+	/*
+	var ctx = this.core.ctx;
+	ctx.save();
+	ctx.globalAlpha = this._gun_transparent;
+	ctx.fillStyle = "red";
+	ctx.font = "48px 'MyFont'";
+	ctx.fillText("銃サンプル", 400, 100);
+	ctx.restore();
+	*/
+};
+
+SceneDuelLose.prototype._showGun = function(){
+	this._gun_transparent = 1.0;
+};
+
+SceneDuelLose.prototype._hideGun = function(){
+	this._is_start_gun_extinguish = true;
 };
 
 module.exports = SceneDuelLose;
 
-},{"../../hakurei":4,"../../object/judge_message":62,"../../object/serif":63,"./base":65}],70:[function(require,module,exports){
+},{"../../constant":2,"../../hakurei":4,"../../object/judge_message":62,"./base":66}],71:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
@@ -14035,71 +14593,189 @@ var Util = require('../../hakurei').Util;
 
 var SceneDuelNotReach = function(core) {
 	BaseScene.apply(this, arguments);
+	this._message_transparent = 0.0;
+	this._gun_transparent = 0.0;
 };
 Util.inherit(SceneDuelNotReach, BaseScene);
 
 SceneDuelNotReach.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+	this._message_transparent = 0.0;
+	this._gun_transparent = 0.0;
 };
 
 
 SceneDuelNotReach.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	if (this.frame_count < 30) {
+		this._message_transparent += 1 / 30;
+	}
+	else if (this.frame_count < 90) {
+		// N秒間はメッセージを見せ続ける
+	}
+	else if (this.frame_count === 90) {
+		// 銃表示
+		this._gun_transparent = 1.0;
+	}
+	else if (this.frame_count < 120) {
+		// N秒間は銃を見せ続ける
+	}
+	else {
+		this.parent.changeSubScene("dead");
+	}
 };
 
 SceneDuelNotReach.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
-	// 山札が0かつ所持金が1億円未満のメッセージを表示
+	var ctx = this.core.ctx;
+	// メッセージウィンドウ
+	if (this._message_transparent > 0.0) {
+		ctx.save();
+		ctx.globalAlpha = this._message_transparent;
+		ctx.translate(this.width/2, this.height/2);
+
+		// ウィンドウ
+		var image = this.core.image_loader.getImage("message_window");
+		ctx.drawImage(image,
+			-600/2,
+			-200/2,
+			600,
+			200
+		);
+
+		// 文字
+		ctx.fillStyle = "red";
+		ctx.font = "36px 'MyFont'";
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText("獲得金額が1億円に満たない！", 0, 0);
+
+		ctx.restore();
+	}
+
+	if (this._gun_transparent > 0.0) {
+		// TODO: 銃を表示
+		/*
+		var ctx = this.core.ctx;
+		ctx.save();
+		ctx.globalAlpha = this._gun_transparent;
+		ctx.fillStyle = "red";
+		ctx.font = "48px 'MyFont'";
+		ctx.fillText("銃サンプル", 400, 100);
+		ctx.restore();
+		*/
+	}
+
 };
 
 module.exports = SceneDuelNotReach;
 
-},{"../../hakurei":4,"./base":65}],71:[function(require,module,exports){
+},{"../../hakurei":4,"./base":66}],72:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
-var Serif = require('../../object/serif');
-var JudgeMessage = require('../../object/judge_message');
-
-
+var CONSTANT = require('../../constant');
 
 var SceneDuelPass = function(core) {
 	BaseScene.apply(this, arguments);
-	this._serif = new Serif(this);
-	this._judge_message = new JudgeMessage(this);
-	this.addObjects([this._serif, this._judge_message]);
 };
 Util.inherit(SceneDuelPass, BaseScene);
 
 SceneDuelPass.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	// トップを表に
+	this.parent.deck().topCard().flip();
 };
 
 
 SceneDuelPass.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	// N秒間は表にしたカードをその場所で見せ続ける
+	if(this.frame_count < 60) {
+		return;
+	}
+	else if (this.frame_count === 60) {
+		this.parent.startSerifExtinguish();
+		return;
+	}
+	else {
+		// フェードアウト中は何もしない
+		if (this.core.scene_manager.isInFadeOut()) {
+			return;
+		}
+
+		var x = this.parent.deck().topCard().x();
+
+		// 左のカードを右へ移動する演出
+		if (x < CONSTANT.OPEN_CARD_X) {
+			x += 10;
+			this.parent.deck().topCard().x(x);
+		}
+		// 移動が終わったら
+		else {
+			this.parent.setNewCard();
+
+			if (this.parent.rule_manager.isClear()) {
+				// クリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("clear");
+			}
+			else if (this.parent.rule_manager.isExClear()) {
+				// EXクリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("ex_clear");
+			}
+			else if (this.parent.rule_manager.isGameOver()) {
+				// ゲームオーバー
+				this.parent.changeSubScene("not_reach");
+			}
+			else {
+				// 次へ
+				this.parent.changeSubScene("choose");
+			}
+		}
+	}
+
 };
 
 SceneDuelPass.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
 };
 
 module.exports = SceneDuelPass;
 
-},{"../../hakurei":4,"../../object/judge_message":62,"../../object/serif":63,"./base":65}],72:[function(require,module,exports){
+},{"../../constant":2,"../../hakurei":4,"./base":66}],73:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
 var GenerateButton = require('../../logic/generate_button');
 
+
+// 1行15文字まで
 var STEPS = [
+	{"x": 120, "y": 200, "window": "balloon_up_left", "text": "左のカードが、右のカードより\n大きいか小さいか当てる"},
+	{"x": 200, "y": 450, "window": "balloon_up_left", "text": "左のカードの数字の方が大きいと\n思えば High を押す"},
+	{"x": 290, "y": 450, "window": "balloon_up_left", "text": "左のカードの数字の方が小さいと\n思えば Low を押す"},
+	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "左のカードと右のカードの数字が\n同じだと思えば Same を押す"},
+	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "Same が当たれば、所持金が\n10倍になる"},
+	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "わからなければ Pass を\n押せばスルーできる"},
+	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "Pass にデメリットはない\n何回でも Pass できる"},
+	{"x": 150, "y": 330, "window": "balloon_down_left", "text": "まだ出現したことのないカードは\nここに表示される"},
+	{"x": 500, "y": 150, "window": "balloon_up_right", "text": "所持金が1億を超えると\n霧雨魔理沙は解放される"},
 ];
 
+var MESSAGE_OFFSET_X = -110;
 
+// ウィンドウの大きさ
+var WINDOW_SCALE = {
+	WIDTH: 2,
+	HEIGHT: 1,
+};
 
 
 
@@ -14141,29 +14817,32 @@ SceneDuelTutorial.prototype.beforeDraw = function(){
 SceneDuelTutorial.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 
-	this._drawWindow(200, 100, "left");
-	this._drawText(50, 65, "あああああああああああああああ\nあああああああああああああああ");
+	this._drawCurrentStepMessage();
+}
+
+SceneDuelTutorial.prototype._drawCurrentStepMessage = function(){
+	if (!(this._step in STEPS)) {
+		return;
+	}
+
+	var data = STEPS[this._step];
+	this._drawWindow(data.x, data.y, data.window);
+	this._drawText(data.x, data.y, data.window, data.text);
 };
 
-SceneDuelTutorial.prototype._drawWindow = function (x, y, pos_name) {
+SceneDuelTutorial.prototype._drawWindow = function (x, y, window_name) {
 	var ctx = this.core.ctx;
 	ctx.save();
 	ctx.translate(x, y);
 
-	// ウィンドウの大きさ
-	var scale = {
-		width: 2,
-		height: 1,
-	};
+	var fukidashi = this.core.image_loader.getImage(window_name);
 
-	var fukidashi = this.core.image_loader.getImage("balloon_" + pos_name);
-
-	// x,y座標は中央が基準位置
+	// x,y座標は左下が基準位置
 	ctx.drawImage(fukidashi,
-		-fukidashi.width * scale.width/2,
-		-fukidashi.height*scale.height/2,
-		fukidashi.width * scale.width,
-		fukidashi.height * scale.height
+		0 + MESSAGE_OFFSET_X,
+		-fukidashi.height*WINDOW_SCALE.HEIGHT,
+		fukidashi.width * WINDOW_SCALE.WIDTH,
+		fukidashi.height * WINDOW_SCALE.HEIGHT
 	);
 	ctx.restore();
 
@@ -14171,18 +14850,24 @@ SceneDuelTutorial.prototype._drawWindow = function (x, y, pos_name) {
 
 
 
-SceneDuelTutorial.prototype._drawText = function(x, y, text){
+SceneDuelTutorial.prototype._drawText = function(x, y, window_name, text){
+	var fukidashi = this.core.image_loader.getImage(window_name);
+	y -= fukidashi.height*WINDOW_SCALE.HEIGHT - 40;
+	x += MESSAGE_OFFSET_X + 50;
+
+	var font_size = 18;
+
 	var sentences = text.split("\n");
 	var ctx = this.core.ctx;
 	// 文言
 	ctx.save();
 	ctx.fillStyle = "black";
-	ctx.font = "18px 'MyFont'";
+	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
 	ctx.textBaseAlign = 'top';
 
 	for(var i = 0, len = sentences.length; i < len; i++) {
-		y += 18 * 1.5;
+		y += font_size * 1.5;
 		ctx.fillText(sentences[i], x, y); // 1行表示
 
 	}
@@ -14190,44 +14875,142 @@ SceneDuelTutorial.prototype._drawText = function(x, y, text){
 	ctx.restore();
 };
 
-
 module.exports = SceneDuelTutorial;
 
-},{"../../hakurei":4,"../../logic/generate_button":57,"./base":65}],73:[function(require,module,exports){
+},{"../../hakurei":4,"../../logic/generate_button":57,"./base":66}],74:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
-var Serif = require('../../object/serif');
 var JudgeMessage = require('../../object/judge_message');
-
-
+var CONSTANT = require('../../constant');
 
 var SceneDuelWin = function(core) {
 	BaseScene.apply(this, arguments);
-	this._serif = new Serif(this);
 	this._judge_message = new JudgeMessage(this);
-	this.addObjects([this._serif, this._judge_message]);
+	this.addObjects([this._judge_message]);
 };
 Util.inherit(SceneDuelWin, BaseScene);
 
 SceneDuelWin.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	// トップを表に
+	this.parent.deck().topCard().flip();
+
+	// 勝敗メッセージ
+	this._judge_message.show("WIN !", "red");
 };
 
 
 SceneDuelWin.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	// N秒間は表にしたカードをその場所で見せ続ける
+	if(this.frame_count < 60) {
+		return;
+	}
+	else if (this.frame_count === 60) {
+		this.parent.startSerifExtinguish();
+		this._judge_message.extinguish();
+		return;
+	}
+	else {
+		// フェードアウト中は何もしない
+		if (this.core.scene_manager.isInFadeOut()) {
+			return;
+		}
+
+		var x = this.parent.deck().topCard().x();
+
+		// 左のカードを右へ移動する演出
+		if (x < CONSTANT.OPEN_CARD_X) {
+			x += 10;
+			this.parent.deck().topCard().x(x);
+		}
+		// 移動が終わったら
+		else {
+			this.parent.setNewCard();
+
+			if (this.parent.rule_manager.isClear()) {
+				// クリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("clear");
+			}
+			else if (this.parent.rule_manager.isExClear()) {
+				// EXクリア
+				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.changeScene("ex_clear");
+			}
+			else if (this.parent.rule_manager.isGameOver()) {
+				// ゲームオーバー
+				this.parent.changeSubScene("not_reach");
+			}
+			else {
+				// 次へ
+				this.parent.changeSubScene("choose");
+			}
+		}
+	}
+
 };
 
 SceneDuelWin.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
-	//var ctx = this.core.ctx;
 };
 
 module.exports = SceneDuelWin;
 
-},{"../../hakurei":4,"../../object/judge_message":62,"../../object/serif":63,"./base":65}],74:[function(require,module,exports){
+},{"../../constant":2,"../../hakurei":4,"../../object/judge_message":62,"./base":66}],75:[function(require,module,exports){
+'use strict';
+
+var BaseScene = require('../hakurei').Scene.Base;
+
+var Util = require('../hakurei').Util;
+
+var Scene = function(core) {
+	BaseScene.apply(this, arguments);
+};
+Util.inherit(Scene, BaseScene);
+
+Scene.prototype.init = function(field_name, is_right){
+	BaseScene.prototype.init.apply(this, arguments);
+
+	this.core.scene_manager.setFadeIn(60, "black");
+};
+
+Scene.prototype.beforeDraw = function(){
+	BaseScene.prototype.beforeDraw.apply(this, arguments);
+
+	if (this.core.input_manager.isLeftClickPush()) {
+		this.core.scene_manager.setFadeOut(60, "black");
+		this.core.scene_manager.changeScene("rule");
+	}
+};
+
+Scene.prototype.draw = function(){
+	BaseScene.prototype.draw.apply(this, arguments);
+	var ctx = this.core.ctx;
+	// 背景
+	ctx.save();
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, this.width, this.height);
+	ctx.restore();
+
+	ctx.save();
+	ctx.fillStyle = "white";
+	ctx.font = "48px 'MyFont'";
+	ctx.textAlign = 'center';
+	ctx.textBaseAlign = 'top';
+
+	ctx.fillText("Super Congratulations!!", this.width/2, this.height/2);
+
+	ctx.restore();
+};
+
+module.exports = Scene;
+
+},{"../hakurei":4}],76:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('../hakurei').Scene.Base;
@@ -14263,7 +15046,7 @@ Scene.prototype.draw = function(){
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
-	var text0 = "・ルール説明\n今、表になっているカードより、次にめくるカードの数字が大きいか小さいかを当てる。\n予想が的中すると所持金が2倍になるが、外すとロシアンルーレットとなる。\n\nHigh: 高い数字が出た場合に勝利。所持金が2倍になる。\nLow: 低い数字が出た場合に勝利。所持金が2倍になる。\nSame: 同じ数字が出た場合に勝利。所持金が10倍になる。\nPass: めくったカードをスルーする。\n";
+	var text0 = "・ルール説明\n今、表になっているカードより、次にめくるカードの数字が大きいか小さいかを当てる。\n予想が的中すると所持金が2倍になるが、外すとロシアンルーレットとなる。\n数字が同じ場合は、何も起こらない。\n\nHigh: 高い数字が出た場合に勝利。所持金が2倍になる。\nLow: 低い数字が出た場合に勝利。所持金が2倍になる。\nSame: 同じ数字が出た場合に勝利。所持金が10倍になる。\nPass: めくったカードをスルーする。\n";
 	var text2 = "・クリア条件\n所持金1円を1億円に増やすこと";
 	var text3 = "なお、山札(35枚)が無くなった時点で\n所持金が1億円に満たなければ即射殺となる。";
 
@@ -14292,7 +15075,7 @@ Scene.prototype._drawText = function(x, y, size, color, text){
 
 module.exports = Scene;
 
-},{"../hakurei":4}],75:[function(require,module,exports){
+},{"../hakurei":4}],77:[function(require,module,exports){
 'use strict';
 
 var BaseScene = require('../hakurei').Scene.Base;
@@ -14345,53 +15128,6 @@ Scene.prototype.draw = function(){
 	ctx.drawImage(caution,
 		-caution.width/2,
 		-caution.height/2);
-	ctx.restore();
-};
-
-module.exports = Scene;
-
-},{"../hakurei":4}],76:[function(require,module,exports){
-'use strict';
-
-var BaseScene = require('../hakurei').Scene.Base;
-
-var Util = require('../hakurei').Util;
-
-var Scene = function(core) {
-	BaseScene.apply(this, arguments);
-};
-Util.inherit(Scene, BaseScene);
-
-Scene.prototype.init = function(field_name, is_right){
-	BaseScene.prototype.init.apply(this, arguments);
-};
-
-Scene.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
-
-	if (this.core.input_manager.isLeftClickPush()) {
-		this.core.scene_manager.setFadeOut(60, "black");
-		this.core.scene_manager.changeScene("rule");
-	}
-};
-
-Scene.prototype.draw = function(){
-	BaseScene.prototype.draw.apply(this, arguments);
-	var ctx = this.core.ctx;
-	// 背景
-	ctx.save();
-	ctx.fillStyle = "black";
-	ctx.fillRect(0, 0, this.width, this.height);
-	ctx.restore();
-
-	ctx.save();
-	ctx.fillStyle = "white";
-	ctx.font = "48px 'MyFont'";
-	ctx.textAlign = 'center';
-	ctx.textBaseAlign = 'top';
-
-	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
-
 	ctx.restore();
 };
 
