@@ -11,6 +11,8 @@ Util.inherit(Scene, BaseScene);
 
 Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	this.core.scene_manager.setFadeIn(60, "black");
 };
 
 Scene.prototype.beforeDraw = function(){
