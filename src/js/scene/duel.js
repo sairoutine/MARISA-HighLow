@@ -15,6 +15,7 @@ var SceneDuelWin      = require('./duel/win');
 var SceneDuelTutorial = require('./duel/tutorial');
 
 var Deck = require('../object/deck');
+var Serif = require('../object/serif');
 
 var Scene = function(core) {
 	BaseScene.apply(this, arguments);
@@ -34,8 +35,9 @@ var Scene = function(core) {
 	this.addSubScene("win", new SceneDuelWin(core));
 	this.addSubScene("tutorial", new SceneDuelTutorial(core));
 
+	this._serif = new Serif(this);
 	this.rule_manager = new RuleManager(this);
-	this.addObjects(this.rule_manager);
+	this.addObjects([this._serif, this.rule_manager]);
 };
 Util.inherit(Scene, BaseScene);
 
@@ -69,6 +71,19 @@ Scene.prototype.setNewCard = function(){
 
 Scene.prototype.deck = function(){
 	return this._deck;
+};
+Scene.prototype.opendCard = function(){
+	return this._opened_card;
+};
+
+// セリフ表示
+Scene.prototype.showSerif = function(text){
+	this._serif.show(text);
+};
+
+// セリフ消滅
+Scene.prototype.startSerifExtinguish = function(){
+	this._serif.startExtinguish();
 };
 
 Scene.prototype.beforeDraw = function(){

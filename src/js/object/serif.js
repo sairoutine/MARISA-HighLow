@@ -16,7 +16,7 @@ var Serif = function(scene) {
 	BaseObject.apply(this, arguments);
 
 	this._text = "";
-	this._transparent = 1.0;
+	this._transparent = 0.0;
 	this._is_start_extinguish = false;
 };
 Util.inherit(Serif, BaseObject);
@@ -25,7 +25,7 @@ Serif.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
 
 	this._text = "";
-	this._transparent = 1.0;
+	this._transparent = 0.0;
 	this._is_start_extinguish = false;
 };
 
@@ -36,6 +36,7 @@ Serif.prototype.beforeDraw = function(){
 		this._transparent -= 0.1;
 
 		if (this._transparent <= 0.0) {
+			this._is_start_extinguish = false;
 			this._transparent = 0.0;
 		}
 	}
@@ -43,6 +44,10 @@ Serif.prototype.beforeDraw = function(){
 
 Serif.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
+
+	if (this._transparent === 0.0) {
+		return;
+	}
 
 	this._drawWindow(580, 200);
 	this._drawText(580, 200, this._text);
@@ -96,6 +101,7 @@ Serif.prototype._drawText = function(x, y, text){
 };
 
 Serif.prototype.show = function(text){
+	this._transparent = 1.0;
 	this._text = text;
 };
 
