@@ -91,7 +91,8 @@ SceneDuelLose.prototype.draw = function(){
 		return;
 	}
 
-	// TODO:
+	// TODO: 銃を表示
+	/*
 	var ctx = this.core.ctx;
 	ctx.save();
 	ctx.globalAlpha = this._gun_transparent;
@@ -99,6 +100,7 @@ SceneDuelLose.prototype.draw = function(){
 	ctx.font = "48px 'MyFont'";
 	ctx.fillText("銃サンプル", 400, 100);
 	ctx.restore();
+	*/
 };
 
 SceneDuelLose.prototype._showGun = function(){
