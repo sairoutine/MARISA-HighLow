@@ -97,7 +97,10 @@ Deck.prototype.draw = function(){
 
 		ctx.fillStyle = "white";
 		ctx.font = "18px 'MyFont'";
-		ctx.fillText(card.number(), x + 5, y + 20);
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+
+		ctx.fillText(card.number(), x + 10, y + 15);
 	}
 	ctx.restore();
 };
