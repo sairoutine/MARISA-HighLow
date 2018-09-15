@@ -10,6 +10,7 @@ var JudgeMessage = function(scene) {
 	this._color = null;
 	this._transparent = 0.0;
 	this._is_start_extinguish = false;
+	this._is_start_show = false;
 };
 Util.inherit(JudgeMessage, BaseObject);
 
@@ -20,6 +21,7 @@ JudgeMessage.prototype.init = function(){
 	this._color = "white";
 	this._transparent = 0.0;
 	this._is_start_extinguish = false;
+	this._is_start_show = false;
 };
 
 JudgeMessage.prototype.beforeDraw = function(){
@@ -33,6 +35,15 @@ JudgeMessage.prototype.beforeDraw = function(){
 			this._transparent = 0.0;
 		}
 	}
+	else if (this._is_start_show && this._transparent !== 1.0) {
+		this._transparent += 0.1;
+
+		if (this._transparent >= 1.0) {
+			this._is_start_show = false;
+			this._transparent = 1.0;
+		}
+	}
+
 };
 
 JudgeMessage.prototype.draw = function(){
@@ -55,12 +66,15 @@ JudgeMessage.prototype.draw = function(){
 };
 
 JudgeMessage.prototype.show = function(text, color){
-	this._transparent = 1.0;
+	this._transparent = 0.0;
+	this._is_start_show = true;
+	this._is_start_extinguish = false;
 	this._text = text;
 	this._color = color;
 };
 
-JudgeMessage.prototype.startExtinguish = function(){
+JudgeMessage.prototype.extinguish = function(){
+	this._is_start_show = false;
 	this._is_start_extinguish = true;
 };
 
