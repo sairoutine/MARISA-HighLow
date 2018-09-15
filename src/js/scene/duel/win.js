@@ -32,7 +32,7 @@ SceneDuelWin.prototype.beforeDraw = function(){
 	}
 	else if (this.frame_count === 60) {
 		this.parent.startSerifExtinguish();
-		this._judge_message.extinguish();
+		this._judge_message.startExtinguish();
 		return;
 	}
 	else {
