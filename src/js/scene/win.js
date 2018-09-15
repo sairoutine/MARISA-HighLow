@@ -33,7 +33,7 @@ Scene.prototype.draw = function(){
 
 	ctx.save();
 	ctx.fillStyle = "white";
-	ctx.font = "48px 'Comic Sans MS'";
+	ctx.font = "48px 'MyFont'";
 	ctx.textAlign = 'center';
 	ctx.textBaseAlign = 'top';
 

@@ -47,7 +47,7 @@ Scene.prototype._drawText = function(x, y, size, color, text){
 	// 文言
 	ctx.save();
 	ctx.fillStyle = color;
-	ctx.font = size.toString() + "px 'Comic Sans MS'";
+	ctx.font = size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
 	ctx.textBaseAlign = 'top';
 

@@ -43,7 +43,7 @@ function _buttonDrawer (text) {
 		);
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		ctx.font = "24px 'Comic Sans MS'";
+		ctx.font = "24px 'MyFont'";
 		ctx.fillStyle = 'black';
 
 		ctx.fillText(text, this.x() + offset_x, this.y() + offset_y);
