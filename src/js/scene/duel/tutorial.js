@@ -7,16 +7,15 @@ var GenerateButton = require('../../logic/generate_button');
 
 // 1行15文字まで
 var STEPS = [
-	{"x": 120, "y": 200, "window": "balloon_up_left", "text": "左のカードが、右のカードより\n大きいか小さいか当てるゲームです"},
-	{"x": 200, "y": 450, "window": "balloon_up_left", "text": "左のカードの方が大きいと\n思ったら High を押します"},
-	{"x": 290, "y": 450, "window": "balloon_up_left", "text": "左のカードの方が小さいと\n思ったら Low を押します"},
-	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "左のカードと右のカードが\n同じだと思ったら Same を押します"},
-	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "Same が当たれば、所持金が\n10倍になります"},
-	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "わからなければ Pass を\n押すとスルーできます"},
-	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "Pass にデメリットはありません\n何回でもできます"},
-	{"x": 150, "y": 330, "window": "balloon_down_left", "text": "まだ出現したことのないカードは\nここに表示されます"},
-	{"x": 500, "y": 150, "window": "balloon_up_right", "text": "所持金が1億を超えると\n霧雨魔理沙は解放されます"},
-	{"x": 500, "y": 150, "window": "balloon_up_right", "text": "それでは健闘を祈ります"},
+	{"x": 120, "y": 200, "window": "balloon_up_left", "text": "左のカードが、右のカードより\n大きいか小さいか当てる"},
+	{"x": 200, "y": 450, "window": "balloon_up_left", "text": "左のカードの数字の方が大きいと\n思えば High を押す"},
+	{"x": 290, "y": 450, "window": "balloon_up_left", "text": "左のカードの数字の方が小さいと\n思えば Low を押す"},
+	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "左のカードと右のカードの数字が\n同じだと思えば Same を押す"},
+	{"x": 370, "y": 450, "window": "balloon_up_left", "text": "Same が当たれば、所持金が\n10倍になる"},
+	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "わからなければ Pass を\n押せばスルーできる"},
+	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "Pass にデメリットはない\n何回でも Pass できる"},
+	{"x": 150, "y": 330, "window": "balloon_down_left", "text": "まだ出現したことのないカードは\nここに表示される"},
+	{"x": 500, "y": 150, "window": "balloon_up_right", "text": "所持金が1億を超えると\n霧雨魔理沙は解放される"},
 ];
 
 var MESSAGE_OFFSET_X = -110;

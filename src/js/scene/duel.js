@@ -54,7 +54,6 @@ Scene.prototype.init = function(field_name, is_right){
 		this.core.is_finish_tutorial = true;
 		this.changeSubScene("tutorial");
 	}
-		this.changeSubScene("choose");
 };
 
 
