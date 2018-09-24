@@ -2,6 +2,8 @@
 
 var AssetsConfig = {};
 AssetsConfig.images = {
+	// https://commons.nicovideo.jp/material/nc19968
+	"spotlight": "./image/spotlight.png",
 	//https://www.pixiv.net/member_illust.php?mode=medium&illust_id=37556413
 	"caution": "./image/caution.png",
 	//"trump": "./image/trump.gif",
