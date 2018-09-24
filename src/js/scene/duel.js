@@ -105,6 +105,9 @@ Scene.prototype.draw = function(){
 	ctx.save();
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, this.width, this.height);
+
+	var spotlight = this.core.image_loader.getImage("spotlight");
+	ctx.drawImage(spotlight, 200, -100, spotlight.width, spotlight.height);
 	ctx.restore();
 
 	this._deck.draw();
