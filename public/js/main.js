@@ -14026,10 +14026,10 @@ Scene.prototype.draw = function(){
 	ctx.save();
 	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
-	ctx.textAlign = 'center';
+	//ctx.textAlign = 'center';
 	//ctx.textBaseline = 'top';
 
-	ctx.fillText("Congratulations!!", this.width/2, this.height/2);
+	ctx.fillText("Congratulations!!", this.width/2, this.height - 50);
 
 	ctx.restore();
 };
@@ -15002,11 +15002,10 @@ Scene.prototype.draw = function(){
 	ctx.save();
 	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
-	ctx.textAlign = 'center';
+	//ctx.textAlign = 'center';
 	//ctx.textBaseline = 'top';
 
-	ctx.fillText("Super Congratulations!!", this.width/2, this.height/2);
-
+	ctx.fillText("Congratulations!!", this.width/2, this.height - 50);
 	ctx.restore();
 };
 
