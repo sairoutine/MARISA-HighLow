@@ -87,7 +87,7 @@ Scene.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
 	// 左クリック位置を出力
-	if (true) {
+	if (CONSTANT.DEBUG) {
 		if(this.core.input_manager.isLeftClickPush()) {
 			var x = this.core.input_manager.mousePositionX();
 			var y = this.core.input_manager.mousePositionY();
