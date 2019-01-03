@@ -1,5 +1,4 @@
 'use strict';
-
 var AssetsConfig = {};
 AssetsConfig.images = {
 	// https://commons.nicovideo.jp/material/nc19968
@@ -21,6 +20,53 @@ AssetsConfig.images = {
 	"ex_clear": "./image/ex_clear.png",
 	"clear": "./image/clear.png",
 	"rule": "./image/rule.png",
+	"revolver": "./image/revolver.png",
+
+	"head_1": "./image/head/1.png",
+	"head_2": "./image/head/2.png",
+	"head_3": "./image/head/3.png",
+	"head_4": "./image/head/4.png",
+	"head_dead": "./image/head/died.png",
+
+	"body_1": "./image/body/1.png",
+	"body_2": "./image/body/2.png",
+	"body_3": "./image/body/3.png",
+	"body_4": "./image/body/4.png",
+	"body_dead": "./image/body/died.png",
+
+	"eye_1_1": "./image/eye/1/1.png",
+	"eye_1_2": "./image/eye/1/2.png",
+	"eye_1_3": "./image/eye/1/3.png",
+	"eye_1_4": "./image/eye/1/4.png",
+	"eye_2_1": "./image/eye/2/5.png",
+	"eye_2_2": "./image/eye/2/6.png",
+	"eye_2_3": "./image/eye/2/7.png",
+	"eye_2_4": "./image/eye/2/8.png",
+	"eye_3_1": "./image/eye/3/9.png",
+	"eye_3_2": "./image/eye/3/10.png",
+	"eye_3_3": "./image/eye/3/11.png",
+	"eye_3_4": "./image/eye/3/12.png",
+	"eye_4_1": "./image/eye/4/13.png",
+	"eye_4_2": "./image/eye/4/14.png",
+	"eye_4_3": "./image/eye/4/15.png",
+	"eye_4_4": "./image/eye/4/16.png",
+
+	"mouse_1_1": "./image/mouse/1/1.png",
+	"mouse_1_2": "./image/mouse/1/2.png",
+	"mouse_1_3": "./image/mouse/1/3.png",
+	"mouse_1_4": "./image/mouse/1/4.png",
+	"mouse_2_1": "./image/mouse/2/5.png",
+	"mouse_2_2": "./image/mouse/2/6.png",
+	"mouse_2_3": "./image/mouse/2/7.png",
+	"mouse_2_4": "./image/mouse/2/8.png",
+	"mouse_3_1": "./image/mouse/3/9.png",
+	"mouse_3_2": "./image/mouse/3/10.png",
+	"mouse_3_3": "./image/mouse/3/11.png",
+	"mouse_3_4": "./image/mouse/3/12.png",
+	"mouse_4_1": "./image/mouse/4/13.png",
+	"mouse_4_2": "./image/mouse/4/14.png",
+	"mouse_4_3": "./image/mouse/4/15.png",
+	"mouse_4_4": "./image/mouse/4/16.png",
 };
 
 AssetsConfig.sounds = {
