@@ -15,6 +15,7 @@ var SceneDuelWin      = require('./duel/win');
 var SceneDuelTutorial = require('./duel/tutorial');
 
 var Deck = require('../object/deck');
+var Marisa = require('../object/marisa');
 var Serif = require('../object/serif');
 
 var Scene = function(core) {
@@ -34,9 +35,10 @@ var Scene = function(core) {
 	this.addSubScene("win", new SceneDuelWin(core));
 	this.addSubScene("tutorial", new SceneDuelTutorial(core));
 
+	this._marisa = new Marisa(this);
 	this._serif = new Serif(this);
 	this.rule_manager = new RuleManager(this);
-	this.addObjects([this._serif, this.rule_manager]);
+	this.addObjects([this._marisa, this._serif, this.rule_manager]);
 };
 Util.inherit(Scene, BaseScene);
 
