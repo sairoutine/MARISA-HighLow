@@ -63,6 +63,9 @@ SceneDuelLose.prototype.beforeDraw = function(){
 			this.parent.changeSubScene("dead");
 		}
 		else {
+			// 魔理沙は生き残った(恐怖レベル+1)
+			this.parent.marisa().survive();
+
 			this._hideGun();
 		}
 		return;
@@ -99,6 +102,9 @@ SceneDuelLose.prototype.beforeDraw = function(){
 				this.parent.changeSubScene("not_reach");
 			}
 			else {
+				// 魔理沙の表情を変更
+				this.parent.marisa().rouletteFace();
+
 				// 次へ
 				this.parent.changeSubScene("choose");
 			}

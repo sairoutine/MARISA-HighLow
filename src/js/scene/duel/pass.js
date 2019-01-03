@@ -60,6 +60,9 @@ SceneDuelPass.prototype.beforeDraw = function(){
 				this.parent.changeSubScene("not_reach");
 			}
 			else {
+				// 魔理沙の表情を変更
+				this.parent.marisa().rouletteFace();
+
 				// 次へ
 				this.parent.changeSubScene("choose");
 			}
