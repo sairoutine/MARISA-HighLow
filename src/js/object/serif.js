@@ -1,5 +1,7 @@
 'use strict';
 
+// 魔理沙のHigh or Low or Same or Pass のセリフ
+
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
 
@@ -49,8 +51,8 @@ Serif.prototype.draw = function(){
 		return;
 	}
 
-	this._drawWindow(580, 200);
-	this._drawText(580, 200, this._text);
+	this._drawWindow(610, 280);
+	this._drawText(610, 280, this._text);
 };
 
 Serif.prototype._drawWindow = function (x, y) {
