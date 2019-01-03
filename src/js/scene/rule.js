@@ -33,13 +33,22 @@ Scene.prototype.draw = function(){
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
-	var text0 = "・ルール説明\n今、表になっているカードより、次にめくるカードの数字が大きいか小さいかを当てる。\n予想が的中すると所持金が2倍になるが、外すとロシアンルーレットとなる。\n数字が同じ場合は、何も起こらない。\n\nHigh: 高い数字が出た場合に勝利。所持金が2倍になる。\nLow: 低い数字が出た場合に勝利。所持金が2倍になる。\nSame: 同じ数字が出た場合に勝利。所持金が10倍になる。\nPass: めくったカードをスルーする。\n";
+	var text0 = "・ルール説明\n今、表になっているカードより、次にめくるカードの数字が大きいか小さいかを当てる。\n予想が的中すると所持金が2倍になるが、外すとロシアンルーレットとなる。\n数字が同じ場合は、何も起こらない。";
+	var text1 = "High: 高い数字が出た場合に勝利。所持金が2倍になる。\nLow: 低い数字が出た場合に勝利。所持金が2倍になる。\nSame: 同じ数字が出た場合に勝利。所持金が10倍になる。\nPass: めくったカードをスルーする。\n";
 	var text2 = "・クリア条件\n所持金1円を1億円に増やすこと";
 	var text3 = "なお、山札(35枚)が無くなった時点で\n所持金が1億円に満たなければ即射殺となる。";
 
 	this._drawText(30, 10, 18, "white", text0);
-	this._drawText(30, 300, 18, "white", text2);
-	this._drawText(30, 400, 18, "white", text3);
+	this._drawText(300, 200, 18, "white", text1);
+	this._drawText(300, 350, 18, "white", text2);
+	this._drawText(300, 450, 18, "white", text3);
+
+	// 魔理沙
+	var bg = this.core.image_loader.getImage("rule");
+	ctx.save();
+	ctx.translate(this.width/2 - 250, this.height/2 + 100);
+	ctx.drawImage(bg, -bg.width/2, -bg.height/2);
+	ctx.restore();
 };
 Scene.prototype._drawText = function(x, y, size, color, text){
 	var sentences = text.split("\n");

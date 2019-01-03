@@ -28,17 +28,22 @@ Scene.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
 	// 背景
+	var bg = this.core.image_loader.getImage("ex_clear");
 	ctx.save();
-	ctx.fillStyle = "black";
-	ctx.fillRect(0, 0, this.width, this.height);
+	ctx.translate(this.width/2, this.height/2);
+	ctx.drawImage(bg, -bg.width/2, -bg.height/2);
 	ctx.restore();
 
 	ctx.save();
-	ctx.fillStyle = "white";
 	ctx.font = "48px 'MyFont'";
-	//ctx.textAlign = 'center';
-	//ctx.textBaseline = 'top';
 
+	// 文字を縁取る
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 4.0;
+	ctx.strokeText("Congratulations!!", this.width/2, this.height - 50);
+
+	// 文字本体
+	ctx.fillStyle = "rgb(255,215,0)";
 	ctx.fillText("Congratulations!!", this.width/2, this.height - 50);
 	ctx.restore();
 };

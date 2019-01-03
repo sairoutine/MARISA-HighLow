@@ -16,6 +16,11 @@ AssetsConfig.images = {
 	"balloon_up_right": "./image/balloon_up_right.png",
 	// http://www.vita-chi.net/message.htm
 	"message_window": "./image/message_window.png",
+
+	// from harasaki san
+	"ex_clear": "./image/ex_clear.png",
+	"clear": "./image/clear.png",
+	"rule": "./image/rule.png",
 };
 
 AssetsConfig.sounds = {
