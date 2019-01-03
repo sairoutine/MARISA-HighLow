@@ -32,7 +32,7 @@ AssetsConfig.images = {
 	"body_2": "./image/body/2.png",
 	"body_3": "./image/body/3.png",
 	"body_4": "./image/body/4.png",
-	"body_dead": "./image/body/died.png",
+	"body_5": "./image/body/5.png",
 
 	"eye_1_1": "./image/eye/1/1.png",
 	"eye_1_2": "./image/eye/1/2.png",
