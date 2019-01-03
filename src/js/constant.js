@@ -1,5 +1,8 @@
 'use strict';
 var CONSTANT = {
+	DEBUG: true,
+	DEBUG_SCENE: "warnings",
+
 	TYPE_RED:    0,
 	TYPE_BLUE:   1,
 	TYPE_GREEN:  2,

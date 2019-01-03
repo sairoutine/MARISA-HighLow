@@ -1,5 +1,6 @@
 'use strict';
 var Game = require('./game');
+var CONSTANT = require('./constant');
 
 var game;
 
@@ -11,6 +12,11 @@ window.onload = function() {
 	game = new Game(mainCanvas, options);
 
 	game.init();
+	// デバッグ設定
+	if (CONSTANT.DEBUG) {
+		var debugDOM = document.getElementById('debug');
+		game.setupDebug(debugDOM);
+	}
 	game.setupEvents();
 	game.startRun();
 };

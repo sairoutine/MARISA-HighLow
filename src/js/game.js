@@ -8,6 +8,7 @@ var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
 var SceneClear = require('./scene/clear');
 var SceneExClear = require('./scene/ex_clear');
+var CONSTANT = require('./constant');
 
 var Assets = require('./assets');
 
@@ -31,7 +32,39 @@ Game.prototype.init = function () {
 	this.is_finish_tutorial = false;
 
 	this.scene_manager.changeScene("loading", Assets, "warnings");
-	//this.scene_manager.changeScene("loading", Assets, "duel");
+
+	// デバッグ用画面遷移
+	if (CONSTANT.DEBUG) {
+		this.scene_manager.changeScene("loading", Assets, CONSTANT.DEBUG_SCENE);
+	}
 };
+
+Game.prototype.setupDebug = function (dom) {
+	if (!CONSTANT.DEBUG) return;
+
+	this.debug_manager.setOn(dom);
+
+	// ゲームスタート ボタン
+	this.debug_manager.addMenuButton("Run", function (game) {
+		game.startRun();
+	});
+
+	// ゲームストップ ボタン
+	this.debug_manager.addMenuButton("Stop", function (game) {
+		game.stopRun();
+	});
+
+	// キャプチャボタン
+	this.debug_manager.addCaputureImageButton("画面キャプチャ");
+
+	this.debug_manager.addMenuButton("FPS表示", function (game) {
+		game.debug_manager.setShowingFpsOn();
+	});
+	this.debug_manager.addMenuButton("FPS非表示", function (game) {
+		game.debug_manager.setShowingFpsOff();
+	});
+};
+
+
 
 module.exports = Game;
