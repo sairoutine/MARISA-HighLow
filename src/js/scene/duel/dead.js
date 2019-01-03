@@ -2,6 +2,7 @@
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
+var CONSTANT = require('../../constant');
 
 var FLASH_COUNT = 3;
 
@@ -47,6 +48,14 @@ SceneDuelDead.prototype.beforeDraw = function(){
 SceneDuelDead.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
+
+	// 死亡後も銃を表示しつづける
+	var revolver = this.core.image_loader.getImage("revolver");
+	ctx.save();
+	ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
+	ctx.drawImage(revolver, -revolver.width/2, -revolver.height/2);
+	ctx.restore();
+
 	// フラッシュ
 	if (this._flash_transparent > 0.0) {
 		ctx.save();
