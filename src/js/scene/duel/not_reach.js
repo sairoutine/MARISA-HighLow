@@ -2,6 +2,7 @@
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
+var CONSTANT = require('../../constant');
 
 
 var SceneDuelNotReach = function(core) {
@@ -68,16 +69,13 @@ SceneDuelNotReach.prototype.draw = function(){
 	}
 
 	if (this._gun_transparent > 0.0) {
-		// TODO: 銃を表示
-		/*
-		var ctx = this.core.ctx;
+		// 銃を表示
+		var revolver = this.core.image_loader.getImage("revolver");
 		ctx.save();
 		ctx.globalAlpha = this._gun_transparent;
-		ctx.fillStyle = "red";
-		ctx.font = "48px 'MyFont'";
-		ctx.fillText("銃サンプル", 400, 100);
+		ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
+		ctx.drawImage(revolver, -revolver.width/2, -revolver.height/2);
 		ctx.restore();
-		*/
 	}
 
 };
