@@ -5,6 +5,10 @@ var Util = require('../hakurei').Util;
 var Card = require('./card');
 var CONSTANT = require('../constant');
 
+// 残りカードのボードの表示位置
+var BOARD_X = 90;
+var BOARD_Y = 50;
+
 var Deck = function(scene) {
 	BaseObject.apply(this, arguments);
 
@@ -63,8 +67,8 @@ Deck.prototype.draw = function(){
 
 	for (var id in objects) {
 		var card = objects[id];
-		var x = 100;
-		var y = 50;
+		var x = BOARD_X;
+		var y = BOARD_Y;
 		if (card.type() === CONSTANT.TYPE_RED) {
 			ctx.fillStyle = "red";
 			y += 0;

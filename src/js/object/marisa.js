@@ -27,7 +27,6 @@ Marisa.prototype.draw = function(){
 	var face = this.core.image_loader.getImage("head_1");
 	var foot = this.core.image_loader.getImage("body_1");
 	var mouse = this.core.image_loader.getImage("mouse_1_1");
-	var revolver = this.core.image_loader.getImage("revolver");
 	ctx.save();
 	ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
 
@@ -35,7 +34,6 @@ Marisa.prototype.draw = function(){
 	ctx.drawImage(face, -face.width/2, -face.height/2);
 	ctx.drawImage(mouse, -mouse.width/2, -mouse.height/2);
 	ctx.drawImage(eye, -eye.width/2, -eye.height/2);
-	ctx.drawImage(revolver, -revolver.width/2, -revolver.height/2);
 
 	ctx.restore();
 };

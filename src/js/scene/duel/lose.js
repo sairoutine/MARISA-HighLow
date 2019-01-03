@@ -114,16 +114,14 @@ SceneDuelLose.prototype.draw = function(){
 		return;
 	}
 
-	// TODO: 銃を表示
-	/*
+	// 銃を表示
 	var ctx = this.core.ctx;
+	var revolver = this.core.image_loader.getImage("revolver");
 	ctx.save();
 	ctx.globalAlpha = this._gun_transparent;
-	ctx.fillStyle = "red";
-	ctx.font = "48px 'MyFont'";
-	ctx.fillText("銃サンプル", 400, 100);
+	ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
+	ctx.drawImage(revolver, -revolver.width/2, -revolver.height/2);
 	ctx.restore();
-	*/
 };
 
 SceneDuelLose.prototype._showGun = function(){
