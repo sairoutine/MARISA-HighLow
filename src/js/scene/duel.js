@@ -68,6 +68,10 @@ Scene.prototype.setNewCard = function(){
 	}
 };
 
+Scene.prototype.marisa = function(){
+	return this._marisa;
+};
+
 Scene.prototype.deck = function(){
 	return this._deck;
 };

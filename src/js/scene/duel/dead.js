@@ -4,7 +4,7 @@ var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
 var CONSTANT = require('../../constant');
 
-var FLASH_COUNT = 3;
+var FLASH_COUNT = 6;
 
 var SceneDuelDead = function(core) {
 	BaseScene.apply(this, arguments);
@@ -25,8 +25,14 @@ SceneDuelDead.prototype.init = function(){
 SceneDuelDead.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
-	if (this.frame_count <= FLASH_COUNT) {
+	if (this.frame_count < FLASH_COUNT) {
 		this._flash_transparent = this.frame_count / FLASH_COUNT;
+	}
+	else if (this.frame_count === FLASH_COUNT) {
+		this._flash_transparent = 1.0;
+
+		// 魔理沙 死亡
+		this.parent.marisa().die();
 	}
 	else if (this.frame_count <= FLASH_COUNT*2) {
 		this._flash_transparent = (FLASH_COUNT*2 - this.frame_count) / FLASH_COUNT;
