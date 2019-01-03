@@ -18,6 +18,7 @@ window.onload = function() {
 		game.setupDebug(debugDOM);
 	}
 	game.setupEvents();
+	game.fullsize();
 	game.startRun();
 };
 
