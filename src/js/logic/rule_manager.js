@@ -37,6 +37,17 @@ RuleManager.prototype.isExClear = function(){
 
 RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
+
+	// デバッグ中ならば残弾数を表示する
+	if (CONSTANT.DEBUG) {
+		var ctx = this.core.ctx;
+		ctx.save();
+		ctx.fillStyle = 'red';
+		ctx.textAlign = 'left';
+		ctx.font = "16px 'sans-serif'";
+		ctx.fillText("残弾数: " + this._bullet_num, this.scene.width - 70, this.scene.height - 40);
+		ctx.restore();
+	}
 };
 
 RuleManager.prototype.pass = function(){
