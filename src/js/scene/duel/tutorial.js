@@ -16,6 +16,8 @@ var STEPS = [
 	{"x": 100, "y": 450, "window": "balloon_up_left", "text": "Pass にデメリットはない\n何回でも Pass できる"},
 	{"x": 150, "y": 330, "window": "balloon_down_left", "text": "まだ出現したことのないカードは\nここに表示される"},
 	{"x": 500, "y": 150, "window": "balloon_up_right", "text": "所持金が1億を超えると\n霧雨魔理沙は解放される"},
+	{"x": 150, "y": 550, "window": "balloon_up_left", "text": "所持金が1億を超えてもゲームは続く\nPass し続ければゲームは終わる"},
+	{"x": 150, "y": 550, "window": "balloon_up_left", "text": "それでは健闘を祈る"},
 ];
 
 var MESSAGE_OFFSET_X = -110;
