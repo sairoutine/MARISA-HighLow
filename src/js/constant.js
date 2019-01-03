@@ -1,7 +1,7 @@
 'use strict';
 var CONSTANT = {
 	DEBUG: true,
-	DEBUG_SCENE: "warnings",
+	DEBUG_SCENE: "duel",
 
 	TYPE_RED:    0,
 	TYPE_BLUE:   1,
@@ -13,6 +13,9 @@ var CONSTANT = {
 
 	TOP_CARD_X: 130,
 	TOP_CARD_Y: 330,
+
+	MARISA_CENTER_X: 600,
+	MARISA_CENTER_Y: 350,
 
 	CLEAR_NEED_MONEY: 100000000,
 	EX_CLEAR_NEED_MONEY: 2000000000,

@@ -2,6 +2,7 @@
 
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var Marisa = function(scene) {
 	BaseObject.apply(this, arguments);
@@ -28,7 +29,7 @@ Marisa.prototype.draw = function(){
 	var mouse = this.core.image_loader.getImage("mouse_1_1");
 	var revolver = this.core.image_loader.getImage("revolver");
 	ctx.save();
-	ctx.translate(this.scene.width/2 + 190, this.scene.height/2 + 30);
+	ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
 
 	ctx.drawImage(foot, -foot.width/2, -foot.height/2);
 	ctx.drawImage(face, -face.width/2, -face.height/2);
