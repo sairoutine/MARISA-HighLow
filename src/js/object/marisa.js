@@ -5,6 +5,7 @@
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
 var CONSTANT = require('../constant');
+var Darker = require('../logic/create_darker_image');
 
 var BODY_IMAGE_BY_DREAD_IDX = [
 	"body_1",
@@ -167,14 +168,20 @@ Marisa.prototype.draw = function(){
 		mouse = this.core.image_loader.getImage(this._mouse_image);
 		eye = this.core.image_loader.getImage(this._eye_image);
 
+		var canvas = document.createElement("canvas");
+		canvas.width = body.width;
+		canvas.height = body.height;
+		var ctx2 = canvas.getContext("2d");
+
+		ctx2.drawImage(body,  0,0);
+		ctx2.drawImage(head,  0,0);
+		ctx2.drawImage(mouse, 0,0);
+		ctx2.drawImage(eye,   0,0);
+		var image = Darker.exec(canvas);
+
 		ctx.save();
 		ctx.translate(CONSTANT.MARISA_CENTER_X, CONSTANT.MARISA_CENTER_Y);
-
-		ctx.drawImage(body, -body.width/2, -body.height/2);
-		ctx.drawImage(head, -head.width/2, -head.height/2);
-		ctx.drawImage(mouse, -mouse.width/2, -mouse.height/2);
-		ctx.drawImage(eye, -eye.width/2, -eye.height/2);
-
+		ctx.drawImage(image, -image.width/2, -image.height/2);
 		ctx.restore();
 	}
 };
