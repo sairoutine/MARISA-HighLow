@@ -72,57 +72,57 @@ AssetsConfig.images = {
 AssetsConfig.sounds = {
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_heartbeat01.html
 	"heartbeat": {
-		path: "./sound/heartbeat.ogg",
+		path: "./sound/heartbeat",
 		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system15.html
 	"lose": {
-		path: "./sound/lose.ogg",
+		path: "./sound/lose",
 		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system34.html
 	"win": {
-		path: "./sound/win.ogg",
+		path: "./sound/win",
 		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system38.html
 	"draw": {
-		path: "./sound/draw.ogg",
+		path: "./sound/draw",
 		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system42.html
 	"pass": {
-		path: "./sound/pass.ogg",
+		path: "./sound/pass",
 		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_sound12.html
 	"next": {
-		path: "./sound/next.ogg",
+		path: "./sound/next",
 		volume: 1.0,
 	},
 	// 銃を構える https://soundeffect-lab.info/sound/battle/battle2.html
 	"revolver_prepare": {
-		path: "./sound/revolver_prepare.ogg",
+		path: "./sound/revolver_prepare",
 		volume: 1.0,
 	},
 	// 拳銃1 https://soundeffect-lab.info/sound/battle/battle2.html
 	"revolver_fire": {
-		path: "./sound/revolver_fire.ogg",
+		path: "./sound/revolver_fire",
 		volume: 1.0,
 	},
 	// 鞘を持つ音 https://soundeffect-lab.info/sound/battle/
 	"revolver_not_fire": {
-		path: "./sound/revolver_not_fire.ogg",
+		path: "./sound/revolver_not_fire",
 		volume: 1.0,
 	},
 	// 歓声と拍手2 https://soundeffect-lab.info/sound/voice/people.html
 	"clear": {
-		path: "./sound/clear.ogg",
+		path: "./sound/clear",
 		volume: 1.0,
 	},
 	// 歓声と拍手1 https://soundeffect-lab.info/sound/voice/people.html
 	"ex_clear": {
-		path: "./sound/ex_clear.ogg",
+		path: "./sound/ex_clear",
 		volume: 1.0,
 	},
 };

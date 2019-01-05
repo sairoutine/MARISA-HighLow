@@ -10,6 +10,15 @@ var SceneLoading = function(core) {
 };
 Util.inherit(SceneLoading, BaseScene);
 
+SceneLoading.prototype._loadSounds = function(sounds) {
+	var ext = Util.canPlayOgg() ? ".ogg" : ".m4a";
+
+	for (var key2 in sounds) {
+		var conf2 = sounds[key2];
+		this.core.audio_loader.loadSound(key2, conf2.path + ext, conf2.volume);
+	}
+};
+
 SceneLoading.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
