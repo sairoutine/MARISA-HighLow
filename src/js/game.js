@@ -31,11 +31,12 @@ Game.prototype.init = function () {
 
 	this.is_finish_tutorial = false;
 
-	this.scene_manager.changeScene("loading", Assets, "warnings");
-
 	// デバッグ用画面遷移
 	if (CONSTANT.DEBUG) {
 		this.scene_manager.changeScene("loading", Assets, CONSTANT.DEBUG_SCENE);
+	}
+	else {
+		this.scene_manager.changeScene("loading", Assets, "warnings");
 	}
 };
 
