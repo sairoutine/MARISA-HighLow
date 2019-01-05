@@ -3,7 +3,7 @@ var Core = require('./hakurei').Core;
 var Util = require('./hakurei').Util;
 
 var SceneWarnings = require('./scene/warnings');
-var SceneLoading = require('./hakurei').Scene.Loading;
+var SceneLoading = require('./scene/loading');
 var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
 var SceneClear = require('./scene/clear');
