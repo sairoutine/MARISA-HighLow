@@ -100,7 +100,21 @@ AssetsConfig.sounds = {
 		path: "./sound/next.ogg",
 		volume: 1.0,
 	},
-
+	// 銃を構える https://soundeffect-lab.info/sound/battle/battle2.html
+	"revolver_prepare": {
+		path: "./sound/revolver_prepare.ogg",
+		volume: 1.0,
+	},
+	// 拳銃1 https://soundeffect-lab.info/sound/battle/battle2.html
+	"revolver_fire": {
+		path: "./sound/revolver_fire.ogg",
+		volume: 1.0,
+	},
+	// 鞘を持つ音 https://soundeffect-lab.info/sound/battle/
+	"revolver_not_fire": {
+		path: "./sound/revolver_not_fire.ogg",
+		volume: 1.0,
+	},
 };
 
 AssetsConfig.bgms = {
