@@ -58,7 +58,10 @@ SceneDuelTutorial.prototype.beforeDraw = function(){
 	if(this.core.input_manager.isLeftClickPush()) {
 		this._step++;
 
-		// チュートリアル終了
+		// SE再生
+		this.core.audio_loader.playSound("next");
+
+		// チュートリアル終了ならば
 		if (this._step >= STEPS.length) {
 			this.parent.changeSubScene("choose");
 		}

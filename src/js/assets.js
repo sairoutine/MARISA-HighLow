@@ -75,18 +75,33 @@ AssetsConfig.sounds = {
 		path: "./sound/heartbeat.ogg",
 		volume: 0.5,
 	},
-
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system15.html
 	"lose": {
 		path: "./sound/lose.ogg",
 		volume: 1.0,
 	},
-
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system34.html
 	"win": {
 		path: "./sound/win.ogg",
 		volume: 1.0,
 	},
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system38.html
+	"draw": {
+		path: "./sound/draw.ogg",
+		volume: 1.0,
+	},
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system42.html
+	"pass": {
+		path: "./sound/pass.ogg",
+		volume: 1.0,
+	},
+
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_ignition02.html
+	"next": {
+		path: "./sound/next.ogg",
+		volume: 1.0,
+	},
+
 };
 
 AssetsConfig.bgms = {

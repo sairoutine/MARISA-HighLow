@@ -18,7 +18,13 @@ Scene.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
 	if (this.core.input_manager.isLeftClickPush()) {
+		// フェードアウトする
 		this.core.scene_manager.setFadeOut(60, "black");
+
+		// SE再生
+		this.core.audio_loader.playSound("next");
+
+		// 次のシーンへ
 		this.core.scene_manager.changeScene("duel");
 	}
 };

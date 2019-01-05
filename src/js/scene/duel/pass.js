@@ -14,6 +14,9 @@ SceneDuelPass.prototype.init = function(){
 
 	// トップを表に
 	this.parent.deck().topCard().flip();
+
+	// パスSE
+	this.core.audio_loader.playSound("pass");
 };
 
 

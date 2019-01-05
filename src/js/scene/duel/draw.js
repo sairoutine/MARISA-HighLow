@@ -20,6 +20,9 @@ SceneDuelDraw.prototype.init = function(){
 
 	// 勝敗メッセージ
 	this._judge_message.show("DRAW", "green");
+
+	// 引き分けSE
+	this.core.audio_loader.playSound("draw");
 };
 
 
