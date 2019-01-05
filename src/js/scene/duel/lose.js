@@ -26,6 +26,9 @@ SceneDuelLose.prototype.init = function(){
 
 	// 勝敗メッセージ
 	this._judge_message.show("LOSE...", "blue");
+
+	// 負けSE
+	this.core.audio_loader.playSound("lose");
 };
 
 

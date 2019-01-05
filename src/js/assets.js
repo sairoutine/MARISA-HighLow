@@ -75,6 +75,12 @@ AssetsConfig.sounds = {
 		path: "./sound/heartbeat.ogg",
 		volume: 0.5,
 	},
+
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system15.html
+	"lose": {
+		path: "./sound/lose.ogg",
+		volume: 1.0,
+	},
 };
 
 AssetsConfig.bgms = {
