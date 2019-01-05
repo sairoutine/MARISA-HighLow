@@ -20,6 +20,9 @@ SceneDuelWin.prototype.init = function(){
 
 	// 勝敗メッセージ
 	this._judge_message.show("WIN !", "red");
+
+	// 勝ちSE
+	this.core.audio_loader.playSound("win");
 };
 
 

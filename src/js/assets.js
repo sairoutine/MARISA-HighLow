@@ -81,6 +81,12 @@ AssetsConfig.sounds = {
 		path: "./sound/lose.ogg",
 		volume: 1.0,
 	},
+
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system34.html
+	"win": {
+		path: "./sound/win.ogg",
+		volume: 1.0,
+	},
 };
 
 AssetsConfig.bgms = {
