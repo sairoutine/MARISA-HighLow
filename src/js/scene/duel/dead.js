@@ -19,6 +19,9 @@ SceneDuelDead.prototype.init = function(){
 
 	this._flash_transparent = 0.0;
 	this._message_transparent = 0.0;
+
+	// 銃声 SE
+	this.core.audio_loader.playSound("revolver_fire");
 };
 
 

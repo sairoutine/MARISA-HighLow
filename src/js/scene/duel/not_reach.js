@@ -31,8 +31,11 @@ SceneDuelNotReach.prototype.beforeDraw = function(){
 	else if (this.frame_count === 90) {
 		// 銃表示
 		this._gun_transparent = 1.0;
+
+		// SE
+		this.core.audio_loader.playSound("revolver_prepare");
 	}
-	else if (this.frame_count < 120) {
+	else if (this.frame_count < 210) {
 		// N秒間は銃を見せ続ける
 	}
 	else {

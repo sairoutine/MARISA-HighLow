@@ -56,10 +56,10 @@ SceneDuelLose.prototype.beforeDraw = function(){
 		return;
 	}
 	// N秒間は銃を見せ続ける
-	else if(this.frame_count < 120) {
+	else if(this.frame_count < 180) {
 		return;
 	}
-	else if (this.frame_count === 120) {
+	else if (this.frame_count === 180) {
 		// ロシアンルーレット
 		if (this.parent.rule_manager.roulette()) {
 			// lose シーンはここで終わり
@@ -134,10 +134,16 @@ SceneDuelLose.prototype.draw = function(){
 };
 
 SceneDuelLose.prototype._showGun = function(){
+	// 銃を突きつける SE
+	this.core.audio_loader.playSound("revolver_prepare");
+
 	this._gun_transparent = 1.0;
 };
 
-SceneDuelLose.prototype._hideGun = function(){
+SceneDuelLose.prototype._hideGun = function() {
+	// 銃が空打ちの SE
+	this.core.audio_loader.playSound("revolver_not_fire");
+
 	this._is_start_gun_extinguish = true;
 };
 
