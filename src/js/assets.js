@@ -95,8 +95,7 @@ AssetsConfig.sounds = {
 		path: "./sound/pass.ogg",
 		volume: 1.0,
 	},
-
-	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_ignition02.html
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_sound12.html
 	"next": {
 		path: "./sound/next.ogg",
 		volume: 1.0,
