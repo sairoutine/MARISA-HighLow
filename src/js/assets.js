@@ -70,6 +70,11 @@ AssetsConfig.images = {
 };
 
 AssetsConfig.sounds = {
+	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_heartbeat01.html
+	"heartbeat": {
+		path: "./sound/heartbeat.ogg",
+		volume: 0.5,
+	},
 };
 
 AssetsConfig.bgms = {
