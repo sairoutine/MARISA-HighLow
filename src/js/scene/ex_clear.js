@@ -13,6 +13,9 @@ Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
 
 	this.core.scene_manager.setFadeIn(60, "black");
+
+	// SE再生
+	this.core.audio_loader.playSound("ex_clear");
 };
 
 Scene.prototype.beforeDraw = function(){

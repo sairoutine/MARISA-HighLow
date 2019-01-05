@@ -73,7 +73,7 @@ AssetsConfig.sounds = {
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_heartbeat01.html
 	"heartbeat": {
 		path: "./sound/heartbeat.ogg",
-		volume: 0.5,
+		volume: 1.0,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system15.html
 	"lose": {
@@ -113,6 +113,16 @@ AssetsConfig.sounds = {
 	// 鞘を持つ音 https://soundeffect-lab.info/sound/battle/
 	"revolver_not_fire": {
 		path: "./sound/revolver_not_fire.ogg",
+		volume: 1.0,
+	},
+	// 歓声と拍手2 https://soundeffect-lab.info/sound/voice/people.html
+	"clear": {
+		path: "./sound/clear.ogg",
+		volume: 1.0,
+	},
+	// 歓声と拍手1 https://soundeffect-lab.info/sound/voice/people.html
+	"ex_clear": {
+		path: "./sound/ex_clear.ogg",
 		volume: 1.0,
 	},
 };
