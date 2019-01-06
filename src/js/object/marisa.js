@@ -106,9 +106,6 @@ var Marisa = function(scene) {
 	// 恐怖レベル
 	this._dread_idx = 0;
 
-	// 表情
-	this._face_idx = 0;
-
 	// 表情画像名
 	this._body_image  = null;
 	this._head_image  = null;
@@ -129,9 +126,6 @@ Marisa.prototype.init = function(){
 	// 恐怖レベル
 	this._dread_idx = 0;
 
-	// 表情
-	this._face_idx = 0;
-
 	// 表情画像名
 	this._body_image  = null;
 	this._head_image  = null;
@@ -139,7 +133,7 @@ Marisa.prototype.init = function(){
 	this._eye_image   = null;
 
 	// 初期 表情決定
-	this._setFace(this._dread_idx, this._face_idx);
+	this._setFace(this._dread_idx, 0, 0);
 };
 
 Marisa.prototype.beforeDraw = function(){
@@ -208,25 +202,19 @@ Marisa.prototype.survive = function() {
 
 // 表情をランダムに決定
 Marisa.prototype.rouletteFace = function() {
-	var face_idx = Util.getRandomInt(4) - 1;
+	var face_idx1 = Util.getRandomInt(4) - 1;
+	var face_idx2 = Util.getRandomInt(4) - 1;
 
-	// 前回の表情と同じ表情にならないようランダムな表情に変更
-	while (this._face_idx === face_idx) {
-		face_idx = Util.getRandomInt(4) - 1;
-	}
-	this._face_idx = face_idx;
-
-	this._setFace(this._dread_idx, this._face_idx);
+	this._setFace(this._dread_idx, face_idx1, face_idx2);
 };
 
 // 表情を設定
-Marisa.prototype._setFace = function(dread_idx, face_idx) {
+Marisa.prototype._setFace = function(dread_idx, face_idx1, face_idx2) {
 	// 表情画像名 変更
 	this._body_image = BODY_IMAGE_BY_DREAD_IDX[ dread_idx ];
 	this._head_image = HEAD_IMAGE_BY_DREAD_IDX[ dread_idx ];
-
-	this._mouse_image = MOUSE_IMAGE_BY_DREAD_IDX[ dread_idx ][ face_idx ];
-	this._eye_image = EYE_IMAGE_BY_DREAD_IDX[ dread_idx ][ face_idx ];
+	this._mouse_image = MOUSE_IMAGE_BY_DREAD_IDX[ dread_idx ][ face_idx1 ];
+	this._eye_image = EYE_IMAGE_BY_DREAD_IDX[ dread_idx ][ face_idx2 ];
 };
 
 module.exports = Marisa;
