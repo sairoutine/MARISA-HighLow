@@ -1,6 +1,7 @@
 'use strict';
 
 var BaseScene = require('../hakurei').Scene.Loading;
+var CONSTANT = require('../constant');
 
 var Util = require('../hakurei').Util;
 
@@ -15,7 +16,11 @@ SceneLoading.prototype._loadSounds = function(sounds) {
 
 	for (var key2 in sounds) {
 		var conf2 = sounds[key2];
-		this.core.audio_loader.loadSound(key2, conf2.path + ext, conf2.volume);
+
+		// デバッグ用ミュート
+		var volume2 = CONSTANT.DEBUG_MUTE ? 0 : conf2.volume;
+
+		this.core.audio_loader.loadSound(key2, conf2.path + ext, volume2);
 	}
 };
 

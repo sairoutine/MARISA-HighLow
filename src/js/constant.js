@@ -1,6 +1,7 @@
 'use strict';
 var CONSTANT = {
-	DEBUG: false,
+	DEBUG: true,
+	DEBUG_MUTE: true,
 	DEBUG_SCENE: "duel",
 
 	TYPE_RED:    0,
