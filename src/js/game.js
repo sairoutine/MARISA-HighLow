@@ -58,12 +58,24 @@ Game.prototype.setupDebug = function (dom) {
 	// キャプチャボタン
 	this.debug_manager.addCaputureImageButton("画面キャプチャ");
 
+	// FPS 表示
 	this.debug_manager.addMenuButton("FPS表示", function (game) {
 		game.debug_manager.setShowingFpsOn();
 	});
 	this.debug_manager.addMenuButton("FPS非表示", function (game) {
 		game.debug_manager.setShowingFpsOff();
 	});
+
+	// 金額増加
+	this.debug_manager.addMenuButton("所持金を2倍にする", function (game) {
+		if(game.scene_manager.currentScene() instanceof SceneDuel) {
+			game.scene_manager.currentScene().rule_manager.twiceMoney();
+		}
+		else {
+			window.alert("ゲームが始まってから押してください");
+		}
+	});
+
 };
 
 

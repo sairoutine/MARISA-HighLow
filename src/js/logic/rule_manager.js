@@ -23,18 +23,6 @@ RuleManager.prototype.beforeDraw = function(){
 	BaseObject.prototype.beforeDraw.apply(this, arguments);
 };
 
-RuleManager.prototype.isGameOver = function(){
-	return this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY;
-};
-
-RuleManager.prototype.isClear = function(){
-	return this.scene.deck().count() === 0 && CONSTANT.EX_CLEAR_NEED_MONEY > this._money && this._money >= CONSTANT.CLEAR_NEED_MONEY;
-};
-RuleManager.prototype.isExClear = function(){
-	return this.scene.deck().count() === 0 && this._money >= CONSTANT.EX_CLEAR_NEED_MONEY;
-};
-
-
 RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
 
@@ -50,6 +38,25 @@ RuleManager.prototype.draw = function(){
 	}
 };
 
+RuleManager.prototype.twiceMoney = function(){
+	this._money *= 2;
+};
+
+
+
+
+
+RuleManager.prototype.isGameOver = function(){
+	return this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY;
+};
+
+RuleManager.prototype.isClear = function(){
+	return this.scene.deck().count() === 0 && CONSTANT.EX_CLEAR_NEED_MONEY > this._money && this._money >= CONSTANT.CLEAR_NEED_MONEY;
+};
+RuleManager.prototype.isExClear = function(){
+	return this.scene.deck().count() === 0 && this._money >= CONSTANT.EX_CLEAR_NEED_MONEY;
+};
+
 RuleManager.prototype.pass = function(){
 	this.scene.changeSubScene("pass");
 };
@@ -58,7 +65,7 @@ RuleManager.prototype.chooseHigh = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num > opened_num) {
-		this._money *= 2;
+		this.twiceMoney();
 		this.scene.changeSubScene("win");
 	}
 	else if (top_num === opened_num) {
@@ -79,7 +86,7 @@ RuleManager.prototype.chooseLow = function(){
 		this.scene.changeSubScene("draw");
 	}
 	else if (top_num < opened_num) {
-		this._money *= 2;
+		this.twiceMoney();
 		this.scene.changeSubScene("win");
 	}
 };
@@ -102,8 +109,6 @@ RuleManager.prototype.roulette = function(){
 
 	return(fired_bullet === 1 ? true : false);
 };
-
-
 
 RuleManager.prototype.money = function(){
 	return this._money;
