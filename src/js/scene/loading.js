@@ -3,13 +3,21 @@
 var BaseScene = require('../hakurei').Scene.Loading;
 var CONSTANT = require('../constant');
 
+var AssetsAll = require('../assets_all');
 var Util = require('../hakurei').Util;
+
+var TRANSIT_COUNT = 300;
+
 
 var SceneLoading = function(core) {
 	BaseScene.apply(this, arguments);
 
 };
 Util.inherit(SceneLoading, BaseScene);
+
+SceneLoading.prototype.init = function(){
+	BaseScene.prototype.init.apply(this, [AssetsAll]);
+};
 
 SceneLoading.prototype._loadSounds = function(sounds) {
 	var ext = Util.canPlayOgg() ? ".ogg" : ".m4a";
@@ -24,17 +32,68 @@ SceneLoading.prototype._loadSounds = function(sounds) {
 	}
 };
 
+SceneLoading.prototype.beforeDraw = function(){
+	this.frame_count++;
+
+	if (this.frame_count > TRANSIT_COUNT && this.core.isAllLoaded()) {
+		if (CONSTANT.DEBUG) {
+			// デバッグ用画面遷移
+			this.core.scene_manager.changeScene(CONSTANT.DEBUG_SCENE);
+		}
+		else {
+			// 本番用画面遷移
+			this.core.scene_manager.changeScene("rule");
+		}
+	}
+};
+
 SceneLoading.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
 
 	// 背景
 	ctx.save();
-	ctx.fillStyle = 'black';
-	ctx.fillRect(0, 0, this.core.width, this.core.height);
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
-	// メッセージ
+	this._drawCaution();
+
+	if (!this.core.isAllLoaded()) {
+		this._drawLoading();
+	}
+};
+
+SceneLoading.prototype._drawCaution = function(){
+	var ctx = this.core.ctx;
+
+	ctx.save();
+
+	// トランジション
+	var alpha = 0.0;
+	if (this.frame_count < TRANSIT_COUNT * 1/3) {
+		alpha = this.frame_count * 3 / TRANSIT_COUNT;
+	}
+	else if (TRANSIT_COUNT * 1/3 <= this.frame_count && this.frame_count < TRANSIT_COUNT * 2/3) {
+		alpha = 1.0;
+	}
+	else if (TRANSIT_COUNT * 2/3 <= this.frame_count && this.frame_count < TRANSIT_COUNT * 3/3) {
+		alpha = (TRANSIT_COUNT - this.frame_count) * 3 / TRANSIT_COUNT;
+	}
+	ctx.globalAlpha = alpha;
+
+	// caution
+	var caution = this.core.image_loader.getImage("caution");
+	ctx.translate(this.width/2, this.height/2);
+	ctx.drawImage(caution,
+		-caution.width/2,
+		-caution.height/2);
+	ctx.restore();
+};
+
+SceneLoading.prototype._drawLoading = function(){
+	var ctx = this.core.ctx;
+
 	var per_frame = this.frame_count % 60;
 	var DOT_SPAN = 15;
 
@@ -52,13 +111,13 @@ SceneLoading.prototype.draw = function(){
 		dot = "...";
 	}
 
+	// Loading メッセージ
 	ctx.save();
 	ctx.fillStyle = "white";
 	ctx.textAlign = 'left';
 	ctx.font = "30px 'MyFont'";
 	ctx.fillText('Now Loading' + dot, this.core.width - 250, this.core.height - 50);
 	ctx.restore();
-
 
 	// プログレスバー
 	ctx.save();

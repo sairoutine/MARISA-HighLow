@@ -2,23 +2,23 @@
 var Core = require('./hakurei').Core;
 var Util = require('./hakurei').Util;
 
-var SceneWarnings = require('./scene/warnings');
-var SceneLoading = require('./scene/loading');
+var SceneLoadingPreload = require('./hakurei').Scene.Loading;
+var SceneLoadingAll = require('./scene/loading');
 var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
 var SceneClear = require('./scene/clear');
 var SceneExClear = require('./scene/ex_clear');
 var CONSTANT = require('./constant');
 
-var Assets = require('./assets');
+var AssetsPreload = require('./assets_preload');
 
 var Game = function(canvas) {
 	Core.apply(this, arguments);
 
 	this.is_finish_tutorial = false;
 
-	this.scene_manager.addScene("loading", new SceneLoading(this));
-	this.scene_manager.addScene("warnings", new SceneWarnings(this));
+	this.scene_manager.addScene("loading_preload", new SceneLoadingPreload(this));
+	this.scene_manager.addScene("loading_all", new SceneLoadingAll(this));
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
 	this.scene_manager.addScene("clear", new SceneClear(this));
@@ -31,13 +31,8 @@ Game.prototype.init = function () {
 
 	this.is_finish_tutorial = false;
 
-	// デバッグ用画面遷移
-	if (CONSTANT.DEBUG) {
-		this.scene_manager.changeScene("loading", Assets, CONSTANT.DEBUG_SCENE);
-	}
-	else {
-		this.scene_manager.changeScene("loading", Assets, "warnings");
-	}
+	// ローディング用素材の読み込み用ローディング画面へ
+	this.scene_manager.changeScene("loading_preload", AssetsPreload, "loading_all");
 };
 
 Game.prototype.setupDebug = function (dom) {

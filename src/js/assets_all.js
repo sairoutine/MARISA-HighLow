@@ -1,11 +1,11 @@
 'use strict';
+
+// ゲームに必要な素材
+
 var AssetsConfig = {};
 AssetsConfig.images = {
 	// https://commons.nicovideo.jp/material/nc19968
 	"spotlight": "./image/spotlight.png",
-	//https://www.pixiv.net/member_illust.php?mode=medium&illust_id=37556413
-	"caution": "./image/caution.png",
-	//"trump": "./image/trump.gif",
 	//http://sozai.akuseru-design.com/category/sozai/button/
 	"button_white": "./image/button_white.png",
 	"button_gray": "./image/button_gray.png",
