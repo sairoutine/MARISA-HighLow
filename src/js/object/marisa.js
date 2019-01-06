@@ -5,6 +5,7 @@
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
 var CONSTANT = require('../constant');
+var HeartBeatManager = require('../logic/heartbeat_manager');
 
 var BODY_IMAGE_BY_DREAD_IDX = [
 	"body_1",
@@ -113,6 +114,9 @@ var Marisa = function(scene) {
 	this._head_image  = null;
 	this._mouse_image = null;
 	this._eye_image   = null;
+
+	this._heartbeat_manager = new HeartBeatManager(this.scene);
+	this.addSubObject(this._heartbeat_manager);
 };
 Util.inherit(Marisa, BaseObject);
 
@@ -181,11 +185,24 @@ Marisa.prototype.draw = function(){
 
 // 死亡する
 Marisa.prototype.die = function() {
+	this._heartbeat_manager.stop();
+
 	this._is_dead = true;
+};
+
+// 銃をつきつけられた
+Marisa.prototype.gunPointed = function() {
+	// 動悸がめちゃくちゃ速くなる
+	this._heartbeat_manager.accelerateFaster();
 };
 
 // 銃をつけつけられて生き残った
 Marisa.prototype.survive = function() {
+	// 平静に戻り、少し動悸が速くなる
+	this._heartbeat_manager.calmDown();
+	this._heartbeat_manager.accelerate();
+
+	// 恐怖度+1
 	this._dread_idx++;
 };
 

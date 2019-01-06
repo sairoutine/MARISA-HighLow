@@ -25,6 +25,10 @@ SceneDuelNotReach.prototype.beforeDraw = function(){
 	if (this.frame_count < 30) {
 		this._message_transparent += 1 / 30;
 	}
+	else if (this.frame_count === 30) {
+		// メッセージを表示している最中から心音が速くなる
+		this.parent.marisa().gunPointed();
+	}
 	else if (this.frame_count < 90) {
 		// N秒間はメッセージを見せ続ける
 	}

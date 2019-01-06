@@ -52,6 +52,10 @@ SceneDuelLose.prototype.beforeDraw = function(){
 		this.parent.startSerifExtinguish();
 		this._judge_message.extinguish();
 
+		// 魔理沙は銃をつきつけられる
+		this.parent.marisa().gunPointed();
+
+		// 銃表示
 		this._showGun();
 		return;
 	}
