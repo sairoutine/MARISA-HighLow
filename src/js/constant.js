@@ -3,7 +3,7 @@ var Util = require('./hakurei').Util;
 var CONSTANT = {
 	DEBUG: true,
 	DEBUG_MUTE: false,
-	DEBUG_SCENE: "duel",
+	DEBUG_SCENE: "rule",
 
 	TYPE_RED:    0,
 	TYPE_BLUE:   1,
