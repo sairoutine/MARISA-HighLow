@@ -13,7 +13,7 @@ var CONSTANT = {
 	COLOR_BLACK:  Util.hexToRGBString("272727"),
 	COLOR_WHITE:  Util.hexToRGBString("FBF5F3"),
 	COLOR_RED:    Util.hexToRGBString("DB2B39"),
-	COLOR_BLUE:   Util.hexToRGBString("3268E8"),
+	COLOR_BLUE:   Util.hexToRGBString("0A34DB"),
 	COLOR_GREEN:  Util.hexToRGBString("317B22"),
 	COLOR_PURPLE: Util.hexToRGBString("801A86"),
 	COLOR_VIVID_RED: "red",
