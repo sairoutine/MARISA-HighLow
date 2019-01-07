@@ -35,7 +35,9 @@ SceneLoading.prototype._loadSounds = function(sounds) {
 SceneLoading.prototype.beforeDraw = function(){
 	this.frame_count++;
 
-	if (this.frame_count > TRANSIT_COUNT && this.core.isAllLoaded()) {
+	// 1. ローディングが済んでいること
+	// 2. トランジションが終わった or ユーザーがクリックした
+	if (this.core.isAllLoaded() && (this.frame_count > TRANSIT_COUNT || this.core.input_manager.isLeftClickPush())) {
 		if (CONSTANT.DEBUG) {
 			// デバッグ用画面遷移
 			this.core.scene_manager.changeScene(CONSTANT.DEBUG_SCENE);
