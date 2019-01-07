@@ -66,7 +66,7 @@ SceneDuelNotReach.prototype.draw = function(){
 		);
 
 		// 文字
-		ctx.fillStyle = "red";
+		ctx.fillStyle = CONSTANT.COLOR_VIVID_RED;
 		ctx.font = "36px 'MyFont'";
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

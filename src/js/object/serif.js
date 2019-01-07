@@ -4,6 +4,7 @@
 
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var MESSAGE_OFFSET_X = -60;
 
@@ -88,7 +89,7 @@ Serif.prototype._drawText = function(x, y, text){
 	// 文言
 	ctx.save();
 	ctx.globalAlpha = this._transparent;
-	ctx.fillStyle = "black";
+	ctx.fillStyle = CONSTANT.COLOR_BLACK;
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
 	//ctx.textBaseline = 'top';

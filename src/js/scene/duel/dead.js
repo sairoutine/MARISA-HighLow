@@ -68,7 +68,7 @@ SceneDuelDead.prototype.draw = function(){
 	// フラッシュ
 	if (this._flash_transparent > 0.0) {
 		ctx.save();
-		ctx.fillStyle = "white";
+		ctx.fillStyle = CONSTANT.COLOR_WHITE;
 		ctx.globalAlpha = this._flash_transparent;
 		ctx.fillRect(0, 0, this.width, this.height);
 		ctx.restore();
@@ -89,7 +89,7 @@ SceneDuelDead.prototype.draw = function(){
 		);
 
 		// 文字
-		ctx.fillStyle = "red";
+		ctx.fillStyle = CONSTANT.COLOR_VIVID_RED;
 		ctx.font = "36px 'MyFont'";
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

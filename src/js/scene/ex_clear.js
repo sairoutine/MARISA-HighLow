@@ -1,6 +1,7 @@
 'use strict';
 
 var BaseScene = require('../hakurei').Scene.Base;
+var CONSTANT = require('../constant');
 
 var Util = require('../hakurei').Util;
 
@@ -12,7 +13,7 @@ Util.inherit(Scene, BaseScene);
 Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
 
-	this.core.scene_manager.setFadeIn(60, "black");
+	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 
 	// SE再生
 	this.core.audio_loader.playSound("ex_clear");
@@ -22,7 +23,7 @@ Scene.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
 	if (this.core.input_manager.isLeftClickPush()) {
-		this.core.scene_manager.setFadeOut(60, "black");
+		this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
 		this.core.scene_manager.changeScene("rule");
 	}
 };
@@ -41,7 +42,7 @@ Scene.prototype.draw = function(){
 	ctx.font = "48px 'MyFont'";
 
 	// 文字を縁取る
-	ctx.strokeStyle = 'black';
+	ctx.strokeStyle = CONSTANT.COLOR_BLACK;
 	ctx.lineWidth = 4.0;
 	ctx.strokeText("Congratulations!!", this.width/2, this.height - 50);
 

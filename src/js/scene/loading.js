@@ -53,7 +53,7 @@ SceneLoading.prototype.draw = function(){
 
 	// 背景
 	ctx.save();
-	ctx.fillStyle = "black";
+	ctx.fillStyle = CONSTANT.COLOR_BLACK;
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
@@ -113,7 +113,7 @@ SceneLoading.prototype._drawLoading = function(){
 
 	// Loading メッセージ
 	ctx.save();
-	ctx.fillStyle = "white";
+	ctx.fillStyle = CONSTANT.COLOR_WHITE;
 	ctx.textAlign = 'left';
 	ctx.font = "30px 'MyFont'";
 	ctx.fillText('Now Loading' + dot, this.core.width - 250, this.core.height - 50);
@@ -121,7 +121,7 @@ SceneLoading.prototype._drawLoading = function(){
 
 	// プログレスバー
 	ctx.save();
-	ctx.fillStyle = "white";
+	ctx.fillStyle = CONSTANT.COLOR_WHITE;
 	ctx.fillRect(0, this.core.height - 20, this.core.width * this.progress(), 50);
 	ctx.restore();
 };

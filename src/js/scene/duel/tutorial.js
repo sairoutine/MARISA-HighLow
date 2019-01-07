@@ -3,6 +3,7 @@
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
 var GenerateButton = require('../../logic/generate_button');
+var CONSTANT = require('../../constant');
 
 
 // 1行15文字まで
@@ -115,7 +116,7 @@ SceneDuelTutorial.prototype._drawText = function(x, y, window_name, text){
 	var ctx = this.core.ctx;
 	// 文言
 	ctx.save();
-	ctx.fillStyle = "black";
+	ctx.fillStyle = CONSTANT.COLOR_BLACK;
 	ctx.font = font_size.toString() + "px 'MyFont'";
 	ctx.textAlign = 'left';
 	//ctx.textBaseline = 'top';

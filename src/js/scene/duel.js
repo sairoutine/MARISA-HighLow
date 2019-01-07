@@ -109,7 +109,7 @@ Scene.prototype.draw = function(){
 	var ctx = this.core.ctx;
 	// 背景
 	ctx.save();
-	ctx.fillStyle = "black";
+	ctx.fillStyle = CONSTANT.COLOR_BLACK;
 	ctx.fillRect(0, 0, this.width, this.height);
 
 	var spotlight = this.core.image_loader.getImage("spotlight");
@@ -129,7 +129,7 @@ Scene.prototype.draw = function(){
 	// デッキ残り枚数の描画
 	var deck_num = this._deck.count();
 	ctx.save();
-	ctx.fillStyle = "white";
+	ctx.fillStyle = CONSTANT.COLOR_WHITE;
 	ctx.font = "36px 'MyFont'";
 	ctx.textAlign = 'left';
 	//ctx.textBaseline = 'top';

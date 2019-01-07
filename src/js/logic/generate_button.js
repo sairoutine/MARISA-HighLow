@@ -1,5 +1,6 @@
 'use strict';
 var UIParts = require('../hakurei').Object.UIParts;
+var CONSTANT = require('../constant');
 
 var GenerateButton = {};
 
@@ -44,7 +45,7 @@ function _buttonDrawer (text) {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		ctx.font = "24px 'MyFont'";
-		ctx.fillStyle = 'black';
+		ctx.fillStyle = CONSTANT.COLOR_BLACK;
 
 		ctx.fillText(text, this.x() + offset_x, this.y() + offset_y);
 

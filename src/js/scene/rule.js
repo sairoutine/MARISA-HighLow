@@ -3,6 +3,7 @@
 var BaseScene = require('../hakurei').Scene.Base;
 
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var Scene = function(core) {
 	BaseScene.apply(this, arguments);
@@ -11,7 +12,7 @@ Util.inherit(Scene, BaseScene);
 
 Scene.prototype.init = function(field_name, is_right){
 	BaseScene.prototype.init.apply(this, arguments);
-	this.core.scene_manager.setFadeIn(60, "black");
+	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 };
 
 Scene.prototype.beforeDraw = function(){
@@ -19,7 +20,7 @@ Scene.prototype.beforeDraw = function(){
 
 	if (this.core.input_manager.isLeftClickPush()) {
 		// フェードアウトする
-		this.core.scene_manager.setFadeOut(60, "black");
+		this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
 
 		// SE再生
 		this.core.audio_loader.playSound("next");
@@ -35,7 +36,7 @@ Scene.prototype.draw = function(){
 
 	// 背景
 	ctx.save();
-	ctx.fillStyle = "black";
+	ctx.fillStyle = CONSTANT.COLOR_BLACK;
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.restore();
 
@@ -44,10 +45,10 @@ Scene.prototype.draw = function(){
 	var text2 = "・クリア条件\n所持金1円を1億円に増やすこと";
 	var text3 = "なお、山札(35枚)が無くなった時点で\n所持金が1億円に満たなければ即射殺となる。";
 
-	this._drawText(30, 10, 18, "white", text0);
-	this._drawText(300, 200, 18, "white", text1);
-	this._drawText(300, 350, 18, "white", text2);
-	this._drawText(300, 450, 18, "white", text3);
+	this._drawText(30, 10, 18, CONSTANT.COLOR_WHITE, text0);
+	this._drawText(300, 200, 18, CONSTANT.COLOR_WHITE, text1);
+	this._drawText(300, 350, 18, CONSTANT.COLOR_WHITE, text2);
+	this._drawText(300, 450, 18, CONSTANT.COLOR_WHITE, text3);
 
 	// 魔理沙
 	var bg = this.core.image_loader.getImage("rule");

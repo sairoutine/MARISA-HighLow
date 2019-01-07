@@ -30,7 +30,7 @@ RuleManager.prototype.draw = function(){
 	if (CONSTANT.DEBUG) {
 		var ctx = this.core.ctx;
 		ctx.save();
-		ctx.fillStyle = 'red';
+		ctx.fillStyle = CONSTANT.COLOR_VIVID_RED;
 		ctx.textAlign = 'left';
 		ctx.font = "16px 'sans-serif'";
 		ctx.fillText("残弾数: " + this._bullet_num, this.scene.width - 70, this.scene.height - 40);

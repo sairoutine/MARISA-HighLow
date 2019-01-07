@@ -2,6 +2,7 @@
 
 var BaseObject = require('../hakurei').Object.Base;
 var Util = require('../hakurei').Util;
+var CONSTANT = require('../constant');
 
 var JudgeMessage = function(scene) {
 	BaseObject.apply(this, arguments);
@@ -18,7 +19,7 @@ JudgeMessage.prototype.init = function(){
 	BaseObject.prototype.init.apply(this, arguments);
 
 	this._text = "";
-	this._color = "white";
+	this._color = CONSTANT.COLOR_WHITE;
 	this._transparent = 0.0;
 	this._is_start_extinguish = false;
 	this._is_start_show = false;

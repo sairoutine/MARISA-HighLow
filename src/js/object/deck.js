@@ -70,19 +70,19 @@ Deck.prototype.draw = function(){
 		var x = BOARD_X;
 		var y = BOARD_Y;
 		if (card.type() === CONSTANT.TYPE_RED) {
-			ctx.fillStyle = "red";
+			ctx.fillStyle = CONSTANT.COLOR_RED;
 			y += 0;
 		}
 		else if (card.type() === CONSTANT.TYPE_BLUE) {
-			ctx.fillStyle = "blue";
+			ctx.fillStyle = CONSTANT.COLOR_BLUE;
 			y += 30;
 		}
 		else if (card.type() === CONSTANT.TYPE_GREEN) {
-			ctx.fillStyle = "green";
+			ctx.fillStyle = CONSTANT.COLOR_GREEN;
 			y += 60;
 		}
 		else if (card.type() === CONSTANT.TYPE_PURPLE) {
-			ctx.fillStyle = "purple";
+			ctx.fillStyle = CONSTANT.COLOR_PURPLE;
 			y += 90;
 		}
 
@@ -90,7 +90,7 @@ Deck.prototype.draw = function(){
 
 		ctx.fillRect(x, y, 20, 30);
 
-		ctx.strokeStyle = "white";
+		ctx.strokeStyle = CONSTANT.COLOR_WHITE;
 		ctx.beginPath();
 		ctx.moveTo(x, y);
 		ctx.lineTo(x+20, y);
@@ -99,7 +99,7 @@ Deck.prototype.draw = function(){
 		ctx.closePath();
 		ctx.stroke();
 
-		ctx.fillStyle = "white";
+		ctx.fillStyle = CONSTANT.COLOR_WHITE;
 		ctx.font = "18px 'MyFont'";
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

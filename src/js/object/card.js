@@ -52,16 +52,16 @@ Card.prototype.draw = function(){
 	ctx.translate(this.x(), this.y());
 
 	if (this.type() === CONSTANT.TYPE_RED) {
-		ctx.fillStyle = "red";
+		ctx.fillStyle = CONSTANT.COLOR_RED;
 	}
 	else if (this.type() === CONSTANT.TYPE_BLUE) {
-		ctx.fillStyle = "blue";
+		ctx.fillStyle = CONSTANT.COLOR_BLUE;
 	}
 	else if (this.type() === CONSTANT.TYPE_GREEN) {
-		ctx.fillStyle = "green";
+		ctx.fillStyle = CONSTANT.COLOR_GREEN;
 	}
 	else if (this.type() === CONSTANT.TYPE_PURPLE) {
-		ctx.fillStyle = "purple";
+		ctx.fillStyle = CONSTANT.COLOR_PURPLE;
 	}
 
 	var offset_x = this.width()/2;
@@ -69,7 +69,7 @@ Card.prototype.draw = function(){
 	ctx.fillRect(-offset_x, -offset_y, this.width(), this.height());
 
 	ctx.lineWidth = 5;
-	ctx.strokeStyle = "white";
+	ctx.strokeStyle = CONSTANT.COLOR_WHITE;
 
 	ctx.beginPath();
 	ctx.moveTo( offset_x,  offset_y);
@@ -81,7 +81,7 @@ Card.prototype.draw = function(){
 
 	// 表なら数字も描画
 	if (!this._is_reverse) {
-		ctx.fillStyle = "white";
+		ctx.fillStyle = CONSTANT.COLOR_WHITE;
 		ctx.font = "192px 'MyFont'";
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

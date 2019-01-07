@@ -19,7 +19,7 @@ SceneDuelWin.prototype.init = function(){
 	this.parent.deck().topCard().flip();
 
 	// 勝敗メッセージ
-	this._judge_message.show("WIN !", "red");
+	this._judge_message.show("WIN !", CONSTANT.COLOR_RED);
 
 	// 勝ちSE
 	this.core.audio_loader.playSound("win");
@@ -57,12 +57,12 @@ SceneDuelWin.prototype.beforeDraw = function(){
 
 			if (this.parent.rule_manager.isClear()) {
 				// クリア
-				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
 				this.core.scene_manager.changeScene("clear");
 			}
 			else if (this.parent.rule_manager.isExClear()) {
 				// EXクリア
-				this.core.scene_manager.setFadeOut(60, "black");
+				this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
 				this.core.scene_manager.changeScene("ex_clear");
 			}
 			else if (this.parent.rule_manager.isGameOver()) {
