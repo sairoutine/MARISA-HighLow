@@ -26,6 +26,7 @@ RuleManager.prototype.beforeDraw = function(){
 RuleManager.prototype.draw = function(){
 	BaseObject.prototype.draw.apply(this, arguments);
 
+	/*
 	// デバッグ中ならば残弾数を表示する
 	if (CONSTANT.DEBUG) {
 		var ctx = this.core.ctx;
@@ -36,6 +37,7 @@ RuleManager.prototype.draw = function(){
 		ctx.fillText("残弾数: " + this._bullet_num, this.scene.width - 70, this.scene.height - 40);
 		ctx.restore();
 	}
+	*/
 };
 
 RuleManager.prototype.twiceMoney = function(){
