@@ -73,7 +73,7 @@ AssetsConfig.sounds = {
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_se_heartbeat01.html
 	"heartbeat": {
 		path: "./sound/heartbeat",
-		volume: 1.0,
+		volume: 0.25,
 	},
 	// https://maoudamashii.jokersounds.com/archives/se_maoudamashii_system15.html
 	"lose": {
