@@ -6,8 +6,8 @@ var SceneLoadingPreload = require('./hakurei').Scene.Loading;
 var SceneLoadingAll = require('./scene/loading');
 var SceneRule = require('./scene/rule');
 var SceneDuel = require('./scene/duel');
-var SceneClear = require('./scene/clear');
-var SceneExClear = require('./scene/ex_clear');
+var SceneClear = require('./scene/clear_normal');
+var SceneClearEx = require('./scene/clear_ex');
 var CONSTANT = require('./constant');
 
 var AssetsPreload = require('./assets_preload');
@@ -22,7 +22,7 @@ var Game = function(canvas) {
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
 	this.scene_manager.addScene("clear", new SceneClear(this));
-	this.scene_manager.addScene("ex_clear", new SceneExClear(this));
+	this.scene_manager.addScene("ex_clear", new SceneClearEx(this));
 };
 Util.inherit(Game, Core);
 

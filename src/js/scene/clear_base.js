@@ -16,7 +16,7 @@ Scene.prototype.init = function(field_name, is_right){
 	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 
 	// SE再生
-	this.core.audio_loader.playSound("ex_clear");
+	this.core.audio_loader.playSound(this.soundName());
 };
 
 Scene.prototype.beforeDraw = function(){
@@ -32,7 +32,7 @@ Scene.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
 	// 背景
-	var bg = this.core.image_loader.getImage("ex_clear");
+	var bg = this.core.image_loader.getImage(this.bgName());
 	ctx.save();
 	ctx.translate(this.width/2, this.height/2);
 	ctx.drawImage(bg, -bg.width/2, -bg.height/2);
@@ -50,6 +50,14 @@ Scene.prototype.draw = function(){
 	ctx.fillStyle = "rgb(255,215,0)";
 	ctx.fillText("Congratulations!!", this.width/2, this.height - 50);
 	ctx.restore();
+};
+
+Scene.prototype.soundName = function(){
+	throw new Error("soundName must be overridden.");
+};
+
+Scene.prototype.bgName = function(){
+	throw new Error("bgName must be overridden.");
 };
 
 module.exports = Scene;
