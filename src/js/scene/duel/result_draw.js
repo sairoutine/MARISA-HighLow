@@ -1,6 +1,6 @@
 'use strict';
 
-var BaseScene = require('./base');
+var BaseScene = require('./result_base');
 var Util = require('../../hakurei').Util;
 var JudgeMessage = require('../../object/judge_message');
 var CONSTANT = require('../../constant');

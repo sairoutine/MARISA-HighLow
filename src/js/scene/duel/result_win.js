@@ -1,26 +1,32 @@
 'use strict';
 
-var BaseScene = require('./base');
+var BaseScene = require('./result_base');
 var Util = require('../../hakurei').Util;
+var JudgeMessage = require('../../object/judge_message');
 var CONSTANT = require('../../constant');
 
-var SceneDuelPass = function(core) {
+var SceneDuelWin = function(core) {
 	BaseScene.apply(this, arguments);
+	this._judge_message = new JudgeMessage(this);
+	this.addObjects([this._judge_message]);
 };
-Util.inherit(SceneDuelPass, BaseScene);
+Util.inherit(SceneDuelWin, BaseScene);
 
-SceneDuelPass.prototype.init = function(){
+SceneDuelWin.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
 
 	// トップを表に
 	this.parent.deck().topCard().flip();
 
-	// パスSE
-	this.core.audio_loader.playSound("pass");
+	// 勝敗メッセージ
+	this._judge_message.show("WIN !", CONSTANT.COLOR_RED);
+
+	// 勝ちSE
+	this.core.audio_loader.playSound("win");
 };
 
 
-SceneDuelPass.prototype.beforeDraw = function(){
+SceneDuelWin.prototype.beforeDraw = function(){
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
 	// N秒間は表にしたカードをその場所で見せ続ける
@@ -29,6 +35,7 @@ SceneDuelPass.prototype.beforeDraw = function(){
 	}
 	else if (this.frame_count === 60) {
 		this.parent.startSerifExtinguish();
+		this._judge_message.extinguish();
 		return;
 	}
 	else {
@@ -74,8 +81,8 @@ SceneDuelPass.prototype.beforeDraw = function(){
 
 };
 
-SceneDuelPass.prototype.draw = function(){
+SceneDuelWin.prototype.draw = function(){
 	BaseScene.prototype.draw.apply(this, arguments);
 };
 
-module.exports = SceneDuelPass;
+module.exports = SceneDuelWin;
