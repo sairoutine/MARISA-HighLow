@@ -22,7 +22,7 @@ var Game = function(canvas) {
 	this.scene_manager.addScene("rule", new SceneRule(this));
 	this.scene_manager.addScene("duel", new SceneDuel(this));
 	this.scene_manager.addScene("clear", new SceneClear(this));
-	this.scene_manager.addScene("ex_clear", new SceneClearEx(this));
+	this.scene_manager.addScene("clear_ex", new SceneClearEx(this));
 };
 Util.inherit(Game, Core);
 

@@ -58,12 +58,12 @@ SceneDuelWin.prototype.beforeDraw = function(){
 			if (this.parent.rule_manager.isClear()) {
 				// クリア
 				this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
-				this.core.scene_manager.changeScene("clear");
+				this.core.scene_manager.changeScene("clear", this.parent.rule_manager.money());
 			}
 			else if (this.parent.rule_manager.isExClear()) {
 				// EXクリア
 				this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
-				this.core.scene_manager.changeScene("ex_clear");
+				this.core.scene_manager.changeScene("clear_ex", this.parent.rule_manager.money());
 			}
 			else if (this.parent.rule_manager.isGameOver()) {
 				// ゲームオーバー
