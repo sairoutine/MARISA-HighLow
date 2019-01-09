@@ -4,15 +4,17 @@ var BaseScene = require('../hakurei').Scene.Base;
 
 var Util = require('../hakurei').Util;
 var CONSTANT = require('../constant');
+
 var RuleManager = require('../logic/rule_manager');
-var SceneDuelChoose   = require('./duel/choose');
-var SceneDuelDead     = require('./duel/dead');
-var SceneDuelDraw     = require('./duel/draw');
-var SceneDuelLose     = require('./duel/lose');
-var SceneDuelPass     = require('./duel/pass');
-var SceneDuelNotReach = require('./duel/not_reach');
-var SceneDuelWin      = require('./duel/win');
-var SceneDuelTutorial = require('./duel/tutorial');
+
+var SceneDuelChoose     = require('./duel/choose');
+var SceneDuelDead       = require('./duel/dead');
+var SceneDuelResultDraw = require('./duel/result_draw');
+var SceneDuelResultLose = require('./duel/result_lose');
+var SceneDuelResultPass = require('./duel/result_pass');
+var SceneDuelResultWin  = require('./duel/result_win');
+var SceneDuelNotReach   = require('./duel/not_reach');
+var SceneDuelTutorial   = require('./duel/tutorial');
 
 var Deck = require('../object/deck');
 var Marisa = require('../object/marisa');
@@ -28,11 +30,11 @@ var Scene = function(core) {
 	// サブシーン
 	this.addSubScene("choose", new SceneDuelChoose(core));
 	this.addSubScene("dead", new SceneDuelDead(core));
-	this.addSubScene("draw", new SceneDuelDraw(core));
-	this.addSubScene("lose", new SceneDuelLose(core));
-	this.addSubScene("pass", new SceneDuelPass(core));
+	this.addSubScene("draw", new SceneDuelResultDraw(core));
+	this.addSubScene("lose", new SceneDuelResultLose(core));
+	this.addSubScene("pass", new SceneDuelResultPass(core));
+	this.addSubScene("win",  new SceneDuelResultWin(core));
 	this.addSubScene("not_reach", new SceneDuelNotReach(core));
-	this.addSubScene("win", new SceneDuelWin(core));
 	this.addSubScene("tutorial", new SceneDuelTutorial(core));
 
 	this._marisa = new Marisa(this);
