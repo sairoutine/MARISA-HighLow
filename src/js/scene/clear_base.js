@@ -7,11 +7,17 @@ var Util = require('../hakurei').Util;
 
 var Scene = function(core) {
 	BaseScene.apply(this, arguments);
+
+	// 稼いだお金
+	this._money = 0;
 };
 Util.inherit(Scene, BaseScene);
 
-Scene.prototype.init = function(){
+Scene.prototype.init = function(money){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	// 稼いだお金
+	this._money = money || 0;
 
 	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 
@@ -44,11 +50,17 @@ Scene.prototype.draw = function(){
 	// 文字を縁取る
 	ctx.strokeStyle = CONSTANT.COLOR_BLACK;
 	ctx.lineWidth = 4.0;
-	ctx.strokeText("Congratulations!!", this.width/2, this.height - 50);
+	ctx.textAlign = 'left';
+	ctx.strokeText("Congratulations!!", 20, 50);
+	ctx.textAlign = 'right';
+	ctx.strokeText("獲得した金額" + this._money + "円", this.width, this.height - 20);
 
 	// 文字本体
 	ctx.fillStyle = "rgb(255,215,0)";
-	ctx.fillText("Congratulations!!", this.width/2, this.height - 50);
+	ctx.textAlign = 'left';
+	ctx.fillText("Congratulations!!", 20, 50);
+	ctx.textAlign = 'right';
+	ctx.fillText("獲得した金額" + this._money + "円", this.width, this.height - 20);
 	ctx.restore();
 };
 
