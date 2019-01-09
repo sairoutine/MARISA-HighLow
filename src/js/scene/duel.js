@@ -42,7 +42,7 @@ var Scene = function(core) {
 };
 Util.inherit(Scene, BaseScene);
 
-Scene.prototype.init = function(field_name, is_right){
+Scene.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
 
 	this._deck.init();
