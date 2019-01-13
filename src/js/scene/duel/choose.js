@@ -2,7 +2,7 @@
 
 var BaseScene = require('./base');
 var Util = require('../../hakurei').Util;
-var GenerateButton = require('../../logic/generate_button');
+var GenerateButton = require('../../logic/generate_choose_button');
 
 
 var SceneDuelChoose = function(core) {

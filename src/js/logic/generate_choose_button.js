@@ -39,8 +39,8 @@ function _buttonDrawer (text) {
 		ctx.drawImage(logo,
 			this.getCollisionLeftX() + offset_x,
 			this.getCollisionUpY() + offset_y,
-			logo.width * 0.5,
-			logo.height * 1.5
+			this.collisionWidth(),
+			this.collisionHeight()
 		);
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
