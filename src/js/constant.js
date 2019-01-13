@@ -1,7 +1,7 @@
 'use strict';
 var Util = require('./hakurei').Util;
 var CONSTANT = {
-	DEBUG: true,
+	DEBUG: false,
 	DEBUG_MUTE: false,
 	DEBUG_SCENE: "rule",
 
