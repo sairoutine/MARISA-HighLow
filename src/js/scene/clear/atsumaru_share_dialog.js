@@ -50,7 +50,7 @@ SceneClearBase.prototype.beforeDraw = function() {
 		// シェアする
 		if(this._yes_button.checkCollisionWithPosition(x, y)) {
 			// サブシーンは戻る
-			this.parent.changeSubScene("main");
+			this.parent.returnSubScene("main");
 
 			// シェアモーダルを開く
 			window.RPGAtsumaru.experimental.screenshot.displayModal();
