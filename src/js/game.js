@@ -72,6 +72,9 @@ Game.prototype.setupDebug = function (dom) {
 	});
 
 };
+Core.prototype.fullsize = function() {
+	this._fullsize();
+};
 
 
 
