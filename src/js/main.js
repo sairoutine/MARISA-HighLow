@@ -18,6 +18,17 @@ window.onload = function() {
 		game.setupDebug(debugDOM);
 	}
 	game.setupEvents();
+
+	// RPGアツマールでスクリーションショットが撮れるようにする
+	if (window.RPGAtsumaru && window.RPGAtsumaru.experimental.screenshot && window.RPGAtsumaru.experimental.screenshot.setScreenshotHandler) {
+		window.RPGAtsumaru.experimental.screenshot.setScreenshotHandler(function() {
+			return new Promise(function(resolve, reject) {
+				var base64 = mainCanvas.toDataURL("image/png");
+				resolve(base64);
+			})
+		})
+	}
+
 	game.fullsize();
 	game.startRun();
 };
