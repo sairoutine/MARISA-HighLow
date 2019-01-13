@@ -23,7 +23,7 @@ window.onload = function() {
 	if (window.RPGAtsumaru && window.RPGAtsumaru.experimental.screenshot && window.RPGAtsumaru.experimental.screenshot.setScreenshotHandler) {
 		window.RPGAtsumaru.experimental.screenshot.setScreenshotHandler(function() {
 			return new Promise(function(resolve, reject) {
-				var base64 = mainCanvas.toDataURL("image/png");
+				var base64 = mainCanvas.toDataURL("image/jpeg");
 				resolve(base64);
 			})
 		})
