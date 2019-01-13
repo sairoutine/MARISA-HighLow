@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "MODE=production webpack --progress --colors",
-    "zip": "MODE=production webpack --progress --colors && zip -r ./game.zip ./public/",
+    "zip": "MODE=production webpack --progress --colors && zip -r ./releases/game.zip ./public/",
     "watch": "webpack-dev-server"
   },
   "author": "sairoutine",
