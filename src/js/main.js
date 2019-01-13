@@ -29,9 +29,22 @@ window.onload = function() {
 		})
 	}
 
-	game.fullsize();
+	// モバイル端末及び iOS simulator で、RPGアツマールだと、
+	// なぜかゲームロードタイミングによって innerWidth, innerHeight がアツマールに設定したゲーム画面サイズにされてしまうので、
+	// 最初にモバイル用サイズを設定し直す。
+	if (isMobileDevice()) {
+		window.innerWidth = screen.width;
+		window.innerHeight = screen.height;
+	}
+	game._fullsize(); // onresize イベントには何も設定しない
+
 	game.startRun();
 };
+
+function isMobileDevice (){
+	var r = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+	return !!navigator.userAgent.match(r);
+}
 
 // for electron
 if(window.require) {
