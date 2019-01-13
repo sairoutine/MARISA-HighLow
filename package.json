@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:js": "MODE=production webpack --progress --colors",
-    "watch": "webpack-dev-server",
-    "start": "electron ./public/electron.js",
-    "build:win": "cd public && electron-packager ./ NewGame --overwrite --platform=win32  --arch=x64 --version=1.6.0 --icon=icon.ico --out ../releases  --asar",
-    "build:mac": "cd public && electron-packager ./ NewGame --overwrite --platform=darwin --arch=x64 --version=1.6.0 --icon=icon.icns --out ../releases  --asar"
+    "build": "MODE=production webpack --progress --colors",
+    "zip": "MODE=production webpack --progress --colors && zip -r ./game.zip ./public/",
+    "watch": "webpack-dev-server"
   },
   "author": "sairoutine",
   "license": "Unlicense",
