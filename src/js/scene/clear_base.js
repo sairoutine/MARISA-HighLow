@@ -5,8 +5,15 @@ var CONSTANT = require('../constant');
 
 var Util = require('../hakurei').Util;
 
+var SceneClearMain = require('./clear/main');
+var SceneClearAtsumaruShareDialog = require('./clear/atsumaru_share_dialog');
+
 var Scene = function(core) {
 	BaseScene.apply(this, arguments);
+
+	// サブシーン
+	this.addSubScene("main", new SceneClearMain(core));
+	this.addSubScene("atumaru_share_dialog", new SceneClearAtsumaruShareDialog(core));
 
 	// 稼いだお金
 	this._money = 0;
@@ -23,19 +30,17 @@ Scene.prototype.init = function(money){
 
 	// SE再生
 	this.core.audio_loader.playSound(this.soundName());
+
+	// サブシーン遷移
+	this.changeSubScene("main");
 };
 
-Scene.prototype.beforeDraw = function(){
+Scene.prototype.beforeDraw = function() {
 	BaseScene.prototype.beforeDraw.apply(this, arguments);
 
-	if (this.core.input_manager.isLeftClickPush()) {
-		this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
-		this.core.scene_manager.changeScene("rule");
-	}
 };
 
 Scene.prototype.draw = function(){
-	BaseScene.prototype.draw.apply(this, arguments);
 	var ctx = this.core.ctx;
 	// 背景
 	var bg = this.core.image_loader.getImage(this.bgName());
@@ -62,6 +67,15 @@ Scene.prototype.draw = function(){
 	ctx.textAlign = 'right';
 	ctx.fillText("獲得した金額" + this._money + "円", this.width, this.height - 20);
 	ctx.restore();
+
+	// サブシーン
+	BaseScene.prototype.draw.apply(this, arguments);
+};
+
+// クリア画面を終えて、次のシーンへ
+Scene.prototype.exit = function(){
+	this.core.scene_manager.setFadeOut(60, CONSTANT.COLOR_BLACK);
+	this.core.scene_manager.changeScene("rule");
 };
 
 Scene.prototype.soundName = function(){
