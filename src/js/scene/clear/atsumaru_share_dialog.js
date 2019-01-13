@@ -52,8 +52,11 @@ SceneClearBase.prototype.beforeDraw = function() {
 			// サブシーンは戻る
 			this.parent.returnSubScene("main");
 
-			// シェアモーダルを開く
-			window.RPGAtsumaru.experimental.screenshot.displayModal();
+			// atsumaru_share_dialog サブシーン自体は表示させたくないので、main に遷移するまで少し待つ
+			this.core.time_manager.setTimeout(function () {
+				// シェアモーダルを開く
+				window.RPGAtsumaru.experimental.screenshot.displayModal();
+			}, 5);
 
 			this._yes_button.setVariable("isclick", true);
 		}
