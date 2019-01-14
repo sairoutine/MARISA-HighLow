@@ -16,15 +16,17 @@ var Scene = function(core) {
 	this.addSubScene("atumaru_share_dialog", new SceneClearAtsumaruShareDialog(core));
 
 	// 稼いだお金
-	this._money = 0;
+	this._moneyStr = "";
 };
 Util.inherit(Scene, BaseScene);
 
 Scene.prototype.init = function(money){
 	BaseScene.prototype.init.apply(this, arguments);
 
+	money = money || 0;
+
 	// 稼いだお金
-	this._money = money || 0;
+	this._moneyStr = this._comma(money);
 
 	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 
@@ -33,6 +35,13 @@ Scene.prototype.init = function(money){
 
 	// サブシーン遷移
 	this.changeSubScene("main");
+};
+
+// 数値を受け取りカンマの入った文字列を返す
+Scene.prototype._comma = function(num) {
+	var numStr = num.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,');
+
+	return numStr;
 };
 
 Scene.prototype.beforeDraw = function() {
@@ -58,14 +67,14 @@ Scene.prototype.draw = function(){
 	ctx.textAlign = 'left';
 	ctx.strokeText("Congratulations!!", 20, 50);
 	ctx.textAlign = 'right';
-	ctx.strokeText("獲得した金額" + this._money + "円", this.width, this.height - 20);
+	ctx.strokeText("獲得した金額" + this._moneyStr + "円", this.width, this.height - 20);
 
 	// 文字本体
 	ctx.fillStyle = "rgb(255,215,0)";
 	ctx.textAlign = 'left';
 	ctx.fillText("Congratulations!!", 20, 50);
 	ctx.textAlign = 'right';
-	ctx.fillText("獲得した金額" + this._money + "円", this.width, this.height - 20);
+	ctx.fillText("獲得した金額" + this._moneyStr + "円", this.width, this.height - 20);
 	ctx.restore();
 
 	// サブシーン
