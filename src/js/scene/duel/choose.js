@@ -13,8 +13,9 @@ var SceneDuelChoose = function(core) {
 	this._high_button = buttons.high_button;
 	this._low_button  = buttons.low_button;
 	this._same_button = buttons.same_button;
+	this._restart_button = buttons.restart_button;
 
-	this.addObjects([this._high_button, this._low_button, this._same_button, this._pass_button]);
+	this.addObjects([this._high_button, this._low_button, this._same_button, this._pass_button, this._restart_button]);
 
 
 };
@@ -22,6 +23,9 @@ Util.inherit(SceneDuelChoose, BaseScene);
 
 SceneDuelChoose.prototype.init = function(){
 	BaseScene.prototype.init.apply(this, arguments);
+
+	// 負け続けている時のみ、restart ボタンを表示する
+	this._restart_button.is_not_show = !this.parent.rule_manager.isOnlyLose();
 };
 
 
@@ -56,9 +60,16 @@ SceneDuelChoose.prototype.beforeDraw = function(){
 
 			this._same_button.setVariable("isclick", true);
 		}
+		else if(!this.is_not_show && this._restart_button.checkCollisionWithPosition(x, y)) {
+			// 即死
+			this.parent.changeSubScene("dead");
+
+			this._restart_button.setVariable("isclick", true);
+		}
+
 	}
 	else {
-		var buttons = [this._high_button, this._low_button, this._same_button, this._pass_button];
+		var buttons = [this._high_button, this._low_button, this._same_button, this._pass_button, this._restart_button];
 		for (var i = 0, len = buttons.length; i < len; i++) {
 			var button = buttons[i];
 			if(button.checkCollisionWithPosition(x, y)) {

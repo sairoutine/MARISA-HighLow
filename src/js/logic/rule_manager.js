@@ -9,6 +9,9 @@ var RuleManager = function(scene) {
 
 	this._bullet_num = 0;
 	this._money = 0;
+
+	this._is_win = false;
+	this._is_lose = false;
 };
 Util.inherit(RuleManager, BaseObject);
 
@@ -17,6 +20,9 @@ RuleManager.prototype.init = function(serif_idx){
 
 	this._bullet_num = 5;
 	this._money = 1;
+
+	this._is_win = false;
+	this._is_lose = false;
 };
 
 RuleManager.prototype.beforeDraw = function(){
@@ -44,10 +50,6 @@ RuleManager.prototype.twiceMoney = function(){
 	this._money *= 2;
 };
 
-
-
-
-
 RuleManager.prototype.isGameOver = function(){
 	return this.scene.deck().count() === 0 && this._money < CONSTANT.CLEAR_NEED_MONEY;
 };
@@ -55,8 +57,13 @@ RuleManager.prototype.isGameOver = function(){
 RuleManager.prototype.isClear = function(){
 	return this.scene.deck().count() === 0 && CONSTANT.EX_CLEAR_NEED_MONEY > this._money && this._money >= CONSTANT.CLEAR_NEED_MONEY;
 };
+
 RuleManager.prototype.isExClear = function(){
 	return this.scene.deck().count() === 0 && this._money >= CONSTANT.EX_CLEAR_NEED_MONEY;
+};
+
+RuleManager.prototype.isOnlyLose = function(){
+	return (!this._is_win && this._is_lose);
 };
 
 RuleManager.prototype.pass = function(){
@@ -67,13 +74,18 @@ RuleManager.prototype.chooseHigh = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num > opened_num) {
+		this._setWin();
+
 		this.twiceMoney();
+
 		this.scene.changeSubScene("win");
 	}
 	else if (top_num === opened_num) {
 		this.scene.changeSubScene("draw");
 	}
 	else if (top_num < opened_num) {
+		this._setLose();
+
 		this.scene.changeSubScene("lose");
 	}
 };
@@ -82,13 +94,18 @@ RuleManager.prototype.chooseLow = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num > opened_num) {
+		this._setLose();
+
 		this.scene.changeSubScene("lose");
 	}
 	else if (top_num === opened_num) {
 		this.scene.changeSubScene("draw");
 	}
 	else if (top_num < opened_num) {
+		this._setWin();
+
 		this.twiceMoney();
+
 		this.scene.changeSubScene("win");
 	}
 };
@@ -97,10 +114,15 @@ RuleManager.prototype.chooseSame = function(){
 	var top_num = this.scene.deck().topCard().number();
 	var opened_num = this.scene.opendCard().number();
 	if (top_num === opened_num) {
+		this._setWin();
+
 		this._money *= 10;
+
 		this.scene.changeSubScene("win");
 	}
 	else {
+		this._setLose();
+
 		this.scene.changeSubScene("lose");
 	}
 };
@@ -114,6 +136,18 @@ RuleManager.prototype.roulette = function(){
 
 RuleManager.prototype.money = function(){
 	return this._money;
+};
+
+RuleManager.prototype._setWin = function(){
+	if (!this._is_win) {
+		this._is_win = true;
+	}
+};
+
+RuleManager.prototype._setLose = function(){
+	if (!this._is_lose) {
+		this._is_lose = true;
+	}
 };
 
 
