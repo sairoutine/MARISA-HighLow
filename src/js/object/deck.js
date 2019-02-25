@@ -48,11 +48,7 @@ Deck.prototype._setTopCard = function(){
 		return;
 	}
 
-	var i = Util.getRandomInt(count) - 1;
-
-	var id = Object.keys(this.objects)[i];
-
-	this._top_card = this.get(id);
+	this._top_card = this.getRandom();
 };
 
 Deck.prototype.beforeDraw = function(){
@@ -63,10 +59,8 @@ Deck.prototype.beforeDraw = function(){
 Deck.prototype.draw = function(){
 	var ctx = this.core.ctx;
 	ctx.save();
-	var objects = Util.shallowCopyHash(this.objects);
 
-	for (var id in objects) {
-		var card = objects[id];
+	this.forEach(function (card) {
 		var x = BOARD_X;
 		var y = BOARD_Y;
 		if (card.type() === CONSTANT.TYPE_RED) {
@@ -105,7 +99,7 @@ Deck.prototype.draw = function(){
 		ctx.textBaseline = 'middle';
 
 		ctx.fillText(card.number(), x + 10, y + 15);
-	}
+	});
 	ctx.restore();
 };
 
