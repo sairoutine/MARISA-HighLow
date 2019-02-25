@@ -29,8 +29,8 @@ SceneDuelChoose.prototype.init = function(){
 };
 
 
-SceneDuelChoose.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelChoose.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	var x = this.core.input_manager.mousePositionX();
 	var y = this.core.input_manager.mousePositionY();

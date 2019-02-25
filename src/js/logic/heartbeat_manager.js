@@ -26,8 +26,8 @@ HeartBeatManager.prototype.init = function(){
 	this._current_heart_rate = this._next_heart_rate;
 };
 
-HeartBeatManager.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+HeartBeatManager.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 
 	if (this._next_heart_rate !== 0) { // 心肺停止でなければ
 		if (this.frame_count % this._current_heart_rate === 0) {

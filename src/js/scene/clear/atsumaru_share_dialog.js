@@ -40,8 +40,8 @@ SceneClearBase.prototype.init = function(){
 	Hakurei.Scene.Base.prototype.init.apply(this, arguments);
 };
 
-SceneClearBase.prototype.beforeDraw = function() {
-	Hakurei.Scene.Base.prototype.beforeDraw.apply(this, arguments);
+SceneClearBase.prototype.update = function() {
+	Hakurei.Scene.Base.prototype.update.apply(this, arguments);
 
 	var x = this.core.input_manager.mousePositionX();
 	var y = this.core.input_manager.mousePositionY();

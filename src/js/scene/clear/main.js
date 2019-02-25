@@ -19,8 +19,8 @@ SceneClearBase.prototype.init = function(){
 	this._is_showed_screenshot_modal = false;
 };
 
-SceneClearBase.prototype.beforeDraw = function() {
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneClearBase.prototype.update = function() {
+	BaseScene.prototype.update.apply(this, arguments);
 	if (this.core.input_manager.isLeftClickPush()) {
 		// RPGアツマール環境かつ一度もスクショ確認モーダルを表示してないなら
 		if (this._isEnableToScreenshotInAtsumaru() && !this._is_showed_screenshot_modal) {

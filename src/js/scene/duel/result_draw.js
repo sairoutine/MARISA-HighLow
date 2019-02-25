@@ -26,8 +26,8 @@ SceneDuelDraw.prototype.init = function(){
 };
 
 
-SceneDuelDraw.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelDraw.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	// N秒間は表にしたカードをその場所で見せ続ける
 	if(this.frame_count < 60) {

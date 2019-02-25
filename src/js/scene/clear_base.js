@@ -35,8 +35,8 @@ Scene.prototype.init = function(money){
 	this.changeSubScene("main");
 };
 
-Scene.prototype.beforeDraw = function() {
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+Scene.prototype.update = function() {
+	BaseScene.prototype.update.apply(this, arguments);
 
 };
 

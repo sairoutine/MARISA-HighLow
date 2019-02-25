@@ -15,8 +15,8 @@ Scene.prototype.init = function(){
 	this.core.scene_manager.setFadeIn(60, CONSTANT.COLOR_BLACK);
 };
 
-Scene.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+Scene.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	if (this.core.input_manager.isLeftClickPush()) {
 		// フェードアウトする

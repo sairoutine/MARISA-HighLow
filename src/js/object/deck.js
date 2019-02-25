@@ -51,8 +51,8 @@ Deck.prototype._setTopCard = function(){
 	this._top_card = this.getRandom();
 };
 
-Deck.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+Deck.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 };
 
 // 残りカードのボードを表示

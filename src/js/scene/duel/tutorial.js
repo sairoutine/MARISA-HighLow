@@ -53,8 +53,8 @@ SceneDuelTutorial.prototype.init = function(){
 };
 
 
-SceneDuelTutorial.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelTutorial.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	if(this.core.input_manager.isLeftClickPush()) {
 		this._step++;

@@ -91,8 +91,8 @@ Scene.prototype.startSerifExtinguish = function(){
 	this._serif.startExtinguish();
 };
 
-Scene.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+Scene.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	// 左クリック位置を出力
 	if (CONSTANT.DEBUG) {

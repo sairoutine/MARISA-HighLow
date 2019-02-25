@@ -136,8 +136,8 @@ Marisa.prototype.init = function(){
 	this._setFace(this._dread_idx, 0, 0);
 };
 
-Marisa.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+Marisa.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 
 };
 

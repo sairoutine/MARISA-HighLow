@@ -32,7 +32,7 @@ SceneLoading.prototype._loadSounds = function(sounds) {
 	}
 };
 
-SceneLoading.prototype.beforeDraw = function(){
+SceneLoading.prototype.update = function(){
 	this.frame_count++;
 
 	// 1. ローディングが済んでいること

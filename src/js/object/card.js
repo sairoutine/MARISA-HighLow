@@ -40,8 +40,8 @@ Card.prototype.type = function(){
 Card.prototype.number = function(){
 	return this._number;
 };
-Card.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+Card.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 };
 
 Card.prototype.draw = function(){

@@ -25,8 +25,8 @@ SceneDuelDead.prototype.init = function(){
 };
 
 
-SceneDuelDead.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelDead.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	if (this.frame_count < FLASH_COUNT) {
 		this._flash_transparent = this.frame_count / FLASH_COUNT;

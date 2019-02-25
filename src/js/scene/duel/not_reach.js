@@ -19,8 +19,8 @@ SceneDuelNotReach.prototype.init = function(){
 };
 
 
-SceneDuelNotReach.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelNotReach.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	if (this.frame_count < 30) {
 		this._message_transparent += 1 / 30;

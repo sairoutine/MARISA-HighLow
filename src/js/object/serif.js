@@ -32,8 +32,8 @@ Serif.prototype.init = function(){
 	this._is_start_extinguish = false;
 };
 
-Serif.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+Serif.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 
 	if (this._is_start_extinguish && this._transparent !== 0.0) {
 		this._transparent -= 0.1;

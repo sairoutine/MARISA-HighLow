@@ -20,8 +20,8 @@ SceneDuelPass.prototype.init = function(){
 };
 
 
-SceneDuelPass.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelPass.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	// N秒間は表にしたカードをその場所で見せ続ける
 	if(this.frame_count < 60) {

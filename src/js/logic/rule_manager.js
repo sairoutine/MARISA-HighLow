@@ -25,8 +25,8 @@ RuleManager.prototype.init = function(serif_idx){
 	this._is_lose = false;
 };
 
-RuleManager.prototype.beforeDraw = function(){
-	BaseObject.prototype.beforeDraw.apply(this, arguments);
+RuleManager.prototype.update = function(){
+	BaseObject.prototype.update.apply(this, arguments);
 };
 
 RuleManager.prototype.draw = function(){

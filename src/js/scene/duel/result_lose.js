@@ -32,8 +32,8 @@ SceneDuelLose.prototype.init = function(){
 };
 
 
-SceneDuelLose.prototype.beforeDraw = function(){
-	BaseScene.prototype.beforeDraw.apply(this, arguments);
+SceneDuelLose.prototype.update = function(){
+	BaseScene.prototype.update.apply(this, arguments);
 
 	if (this._is_start_gun_extinguish && this._gun_transparent !== 0.0) {
 		this._gun_transparent -= 0.1;
