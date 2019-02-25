@@ -32,11 +32,11 @@ window.onload = function() {
 	// モバイル端末及び iOS simulator で、RPGアツマールだと、
 	// なぜかゲームロードタイミングによって innerWidth, innerHeight がアツマールに設定したゲーム画面サイズにされてしまうので、
 	// 最初にモバイル用サイズを設定し直す。
-	if (isMobileDevice()) {
+	if (window.RPGAtsumaru && isMobileDevice()) {
 		window.innerWidth = screen.width;
 		window.innerHeight = screen.height;
 	}
-	game._fullsize(); // onresize イベントには何も設定しない
+	game.fullsize();
 
 	game.startRun();
 };
