@@ -60,8 +60,8 @@ SceneDuelChoose.prototype.update = function(){
 
 			this._same_button.setVariable("isclick", true);
 		}
-		else if(!this.is_not_show && this._restart_button.checkCollisionWithPosition(x, y)) {
-			// 即死
+		else if(!this._restart_button.is_not_show && this._restart_button.checkCollisionWithPosition(x, y)) {
+			// 即殺
 			this.parent.changeSubScene("dead");
 
 			this._restart_button.setVariable("isclick", true);
