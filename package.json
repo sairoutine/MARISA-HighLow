@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "MODE=production webpack --progress --colors",
-    "zip": "MODE=production webpack --progress --colors && zip -r ./releases/game.zip ./public/",
-    "watch": "webpack-dev-server"
+    "watch": "webpack-dev-server",
+    "build:atsumaru": "npm run compile:js && zip -r ./releases/game.zip ./public/",
+    "compile:js": "MODE=production webpack --progress --colors",
   },
   "author": "sairoutine",
   "license": "Unlicense",
