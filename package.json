@@ -1,12 +1,12 @@
 {
-  "name": "hakureijs-boilertemplate",
+  "name": "marisa-highlow",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "watch": "webpack-dev-server",
     "build:atsumaru": "npm run compile:js && zip -r ./releases/game.zip ./public/",
-    "compile:js": "MODE=production webpack --progress --colors",
+    "compile:js": "MODE=production webpack --progress --colors"
   },
   "author": "sairoutine",
   "license": "Unlicense",
