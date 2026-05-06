@@ -7,14 +7,22 @@ var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const js = {
 	mode: MODE,
 	devtool: enabledSourcemap ? 'cheap-module-eval-source-map' : false,
-	entry: `${ __dirname }/src/js/main.js`,
+	entry: `${ __dirname }/src/js/main.ts`,
 	output: {
 		path: `${ __dirname }/public/js/`,
 		filename: 'main.js',
 		publicPath: `/js/`,
 	},
+	resolve: {
+		extensions: ['.ts', '.js'],
+	},
 	module: {
 		rules: [
+			{
+				test: /\.ts$/,
+				use: ['ts-loader'],
+				exclude: /node_modules/,
+			},
 			{
 				test: /\.js$/,
 				use: ['babel-loader'],
@@ -22,7 +30,7 @@ const js = {
 			},
 			{
 				test: /\.js$/,
-				exclude: /(node_modules)/,
+				exclude: /(node_modules|hakureijs)/,
 				loader: 'eslint-loader',
 				options: {
 					// fix wrong files automatically

@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack-dev-server",
+    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server",
     "build:atsumaru": "npm run compile:js && zip -r ./releases/game.zip ./public/",
-    "compile:js": "MODE=production webpack --progress --colors"
+    "compile:js": "NODE_OPTIONS=--openssl-legacy-provider MODE=production webpack --progress --colors",
+    "typecheck": "tsc --noEmit"
   },
   "author": "sairoutine",
   "license": "Unlicense",
@@ -22,6 +23,8 @@
     "eslint": "5.11.1",
     "eslint-loader": "2.1.0",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "ts-loader": "8.4.0",
+    "typescript": "4.9.5",
     "webpack": "4.16.5",
     "webpack-build-notifier": "0.1.30",
     "webpack-cli": "2.1.3",

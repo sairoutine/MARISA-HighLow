@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017"],
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noEmit": false,
+    "outDir": "./dist-tsc-noop",
+    "rootDir": "./src",
+    "allowJs": false
+  },
+  "include": ["src/js/**/*.ts", "src/js/**/*.d.ts"],
+  "exclude": ["node_modules", "src/js/hakureijs", "dist-tsc-noop"]
+}
